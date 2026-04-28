@@ -1728,5 +1728,57 @@
   });
 </script>
 
+<!-- ── SUPABASE LIVE PRODUCT LOADER ────────────────────────────────────────
+     When supabase-config.js is filled in, this script fetches live product
+     data (prices, names, images, active status) from the database and patches
+     each card on the page without touching the static HTML layout.
+───────────────────────────────────────────────────────────────────────────-->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="supabase-config.js"></script>
+<script>
+(async function () {
+  if (typeof SUPABASE_URL === 'undefined' || SUPABASE_URL.includes('YOUR_')) return;
+
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  const { data: products, error } = await sb
+    .from('products')
+    .select('id, name, price, images, active');
+
+  if (error || !products) return;
+
+  products.forEach(p => {
+    // Find the card by its onclick attribute (e.g. onclick="location.href='product.html?id=ostrich-backpack'")
+    const card = document.querySelector(`article[onclick*="${p.id}"]`);
+    if (!card) return;
+
+    // Hide the whole card if marked inactive in the database
+    if (!p.active) {
+      card.style.display = 'none';
+      return;
+    }
+
+    // Update product name
+    const nameEl = card.querySelector('.product-name');
+    if (nameEl) nameEl.textContent = p.name;
+
+    // Update price
+    const priceEl = card.querySelector('.product-price');
+    if (priceEl) {
+      priceEl.textContent = p.price != null
+        ? 'R ' + Number(p.price).toLocaleString('en-ZA')
+        : 'Contact for price';
+    }
+
+    // Update hero image if the first image in the DB differs from the static src
+    const imgs = Array.isArray(p.images) ? p.images : (p.images ? JSON.parse(p.images) : []);
+    if (imgs[0]) {
+      const imgEl = card.querySelector('.product-img-wrap img');
+      if (imgEl && imgEl.src !== imgs[0]) imgEl.src = imgs[0];
+    }
+  });
+})();
+</script>
+
 </body>
 </html>

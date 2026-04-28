@@ -7,6 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="supabase-config.js"></script>
   <style>
     :root {
       --gold: #B85C38;
@@ -786,424 +788,458 @@
 <div class="toast" id="toast"></div>
 
 <script>
-  // ── PRODUCT DATA ──────────────────────────────────────────────────────────
-  const PRODUCTS = {
-    'ostrich-backpack': {
-      name: 'Ostrich Leather Backpack',
-      category: 'Ostrich Leather',
-      badge: 'Bestseller',
-      price: 4850,
-      type: 'bag',
-      images: [
-        'images/Ostrich Leather Backpack.jpeg',
-        'images/Ostrich Leather Bag.jpeg',
-        'images/Ostrich Bag.jpeg',
-      ],
-      description: 'A masterwork of artisan craft — this backpack is fashioned from premium ostrich leather sourced from the Karoo region. The distinctive quill pattern catches the light beautifully, ageing with character and grace.',
-      details: {
-        'Material': 'Full-grain ostrich leather',
-        'Lining': 'Suede microfibre',
-        'Dimensions': '38 × 28 × 14 cm',
-        'Closure': 'YKK brass zip',
-        'Origin': 'Handcrafted in South Africa',
-      },
-      longDesc: 'Ostrich leather is among the most durable and supple leathers in the world. The follicle bumps characteristic of ostrich skin develop a natural patina with use, making every bag truly one-of-a-kind. This backpack features a padded laptop sleeve, two interior pockets, and adjustable shoulder straps lined with nubuck for comfort.',
-      features: ['Padded 15" laptop sleeve', 'Exterior zip pocket', 'Brass hardware', 'Water-resistant treatment', 'Lifetime craftsman guarantee'],
-      rating: 4.8,
-      reviewCount: 14,
-      ratingBreakdown: [9, 4, 1, 0, 0],
-    },
-    'ostrich-tan': {
-      name: 'Classic Tan Ostrich Bag',
-      category: 'Ostrich Leather',
-      badge: 'Handcrafted',
-      price: 3200,
-      type: 'bag',
-      images: [
-        'images/Ostrich Bag.jpeg',
-        'images/Ostrich Leather Backpack.jpeg',
-        'images/Ladies Ostrich Bag.jpeg',
-      ],
-      description: 'A classic structured tote in warm tan ostrich leather. Spacious enough for everyday use yet refined enough for evenings out. The natural quill pattern adds organic texture to every surface.',
-      details: {
-        'Material': 'Ostrich leg leather',
-        'Lining': 'Cotton sateen',
-        'Dimensions': '34 × 24 × 12 cm',
-        'Closure': 'Magnetic snap',
-        'Origin': 'Handcrafted in South Africa',
-      },
-      longDesc: 'Hand-stitched by master leather artisans, this tote showcases the full beauty of ostrich hide. The warm tan tone complements a wide range of outfits. Interior features a zip pocket and two slip pockets for organisation.',
-      features: ['Detachable wrist strap', 'Interior zip pocket', 'Antique gold hardware', 'Dust bag included', 'Certificate of authenticity'],
-      rating: 4.6,
-      reviewCount: 9,
-      ratingBreakdown: [6, 2, 1, 0, 0],
-    },
-    'eva-clutch': {
-      name: 'Eva Ladies Clutch',
-      category: 'Ostrich Leather',
-      badge: 'Limited Edition',
-      price: 1950,
-      type: 'bag',
-      images: [
-        'images/Ladies Ostrich Bag.jpeg',
-        'images/Ostrich Bag.jpeg',
-        'images/Ostrich Leather Bag.jpeg',
-      ],
-      description: 'The Eva clutch is a statement piece. Crafted from lustrous ostrich leather in a rich colour that transitions from deep burgundy to warm cocoa in different light.',
-      details: {
-        'Material': 'Full-grain ostrich leather',
-        'Lining': 'Silk charmeuse',
-        'Dimensions': '28 × 14 × 3 cm',
-        'Closure': 'Turn-lock clasp',
-        'Origin': 'Handcrafted in South Africa',
-      },
-      longDesc: 'Part of our limited Eva collection, this clutch is finished by hand with silk lining and a polished turn-lock clasp. The envelope silhouette is timeless and pairs equally well with formal and casual looks.',
-      features: ['Chain strap included', 'Silk lining', 'Limited edition number stamped inside', 'Gift box packaging', 'Artisan signature tag'],
-      rating: 5.0,
-      reviewCount: 6,
-      ratingBreakdown: [6, 0, 0, 0, 0],
-    },
-    'ostrich-navy': {
-      name: 'Navy Structured Tote',
-      category: 'Ostrich Leather',
-      badge: 'Handcrafted',
-      price: 2750,
-      type: 'bag',
-      images: [
-        'images/Ostrich Leather Bag.jpeg',
-        'images/Ostrich Leather Backpack.jpeg',
-        'images/Ostrich Bag.jpeg',
-      ],
-      description: 'The deep navy finish on this structured tote gives it an understated luxury. Paired with silver hardware and a structured frame, it makes a bold impression in boardrooms and boutiques alike.',
-      details: {
-        'Material': 'Dyed ostrich leather',
-        'Lining': 'Alcantara microsuede',
-        'Dimensions': '36 × 26 × 14 cm',
-        'Closure': 'Top zip with tassel',
-        'Origin': 'Handcrafted in South Africa',
-      },
-      longDesc: 'Custom-dyed in a proprietary navy tone that maintains the natural texture of the ostrich quill pattern. The structured base insert keeps the bag upright while carrying. Silver hardware adds a contemporary contrast.',
-      features: ['Base structure insert', 'Interior card slots', 'Sterling silver hardware', 'Shoulder strap + handles', 'Protective leather feet'],
-      rating: 4.7,
-      reviewCount: 11,
-      ratingBreakdown: [8, 2, 1, 0, 0],
-    },
-    'wildebeest-rug': {
-      name: 'Black Wildebeest Hide Rug',
-      category: 'Animal Hide Rugs',
-      badge: 'Contact for Price',
-      price: null,
-      type: 'rug',
-      images: [
-        'images/black-wildebeest-rug.png',
-        'images/Eland-Rug.png',
-      ],
-      description: 'A magnificent black wildebeest hide, ethically sourced from game reserves during regulated conservation culling. Each rug is unique — a true piece of African wilderness for your home.',
-      details: {
-        'Hide Type': 'Black wildebeest',
-        'Average Size': '180 × 140 cm',
-        'Treatment': 'Chrome-tanned & hand-finished',
-        'Backing': 'Optional felt backing',
-        'Sourcing': 'Ethical game management',
-      },
-      longDesc: 'Each hide is individually selected for quality and character. The deep black and brown tones of the wildebeest coat bring drama and warmth to any space. Used as a floor rug, wall hanging, or furniture throw, it is a striking statement of African heritage.',
-      features: ['Unique one-of-a-kind piece', 'Professionally tanned & finished', 'Naturally hypoallergenic', 'Suitable for floors & walls', 'Pest-resistant treatment'],
-      rating: 4.9,
-      reviewCount: 5,
-      ratingBreakdown: [5, 0, 0, 0, 0],
-    },
-    'eland-rug': {
-      name: 'Eland Hide Rug',
-      category: 'Animal Hide Rugs',
-      badge: 'Contact for Price',
-      price: null,
-      type: 'rug',
-      images: [
-        'images/Eland-Rug.png',
-        'images/black-wildebeest-rug.png',
-      ],
-      description: 'The eland is the largest antelope on earth, and its hide is correspondingly grand. Warm buff tones with distinctive natural markings make this rug a centrepiece of any room.',
-      details: {
-        'Hide Type': 'Common eland',
-        'Average Size': '220 × 160 cm',
-        'Treatment': 'Vegetable-tanned & oil-dressed',
-        'Backing': 'Optional felt backing',
-        'Sourcing': 'Ethical game management',
-      },
-      longDesc: 'Larger than most bovine hides, an eland rug fills a room with presence. The warm tawny tones and subtle striping are unique to each animal. Our artisans treat every hide with traditional methods that preserve its natural character while ensuring durability.',
-      features: ['One of the largest hide rugs available', 'Natural tawny & ochre tones', 'Tannin-cured for longevity', 'Suitable for high-traffic areas', 'Can be custom-trimmed to shape'],
-      rating: 4.8,
-      reviewCount: 4,
-      ratingBreakdown: [4, 0, 0, 0, 0],
-    },
-  };
+// ── SUPABASE + CONFIG ────────────────────────────────────────────────────────
+const CONFIGURED = typeof SUPABASE_URL !== 'undefined' && !SUPABASE_URL.includes('YOUR_');
+const sb = CONFIGURED ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
-  const SAMPLE_REVIEWS = {
-    'ostrich-backpack': [
-      { name: 'Nomvula D.', rating: 5, date: 'March 2025', body: 'I have never owned anything as beautiful. The quality of the leather is extraordinary — soft yet tough. I get compliments every single day.' },
-      { name: 'James K.', rating: 5, date: 'February 2025', body: 'Bought this as a gift for my wife and she absolutely loves it. The craftsmanship is exceptional. Worth every cent.' },
-      { name: 'Thabo M.', rating: 4, date: 'January 2025', body: 'Excellent bag, very well made. Took a few days to soften the leather but now it\'s perfect. Shipping was quick.' },
-    ],
-    'eva-clutch': [
-      { name: 'Lerato S.', rating: 5, date: 'April 2025', body: 'Absolutely stunning. I carried it to a gala dinner and everyone wanted to know where I got it. Truly special.' },
-      { name: 'Ayesha P.', rating: 5, date: 'March 2025', body: 'The silk lining is divine and the turn-lock is so satisfying. Gift packaging was gorgeous too.' },
-    ],
-  };
+// ── STATIC FALLBACK DATA ─────────────────────────────────────────────────────
+const STATIC_PRODUCTS = {
+  'ostrich-backpack': {
+    name: 'Ostrich Leather Backpack', category: 'Ostrich Leather', badge: 'Bestseller',
+    price: 4850, type: 'bag',
+    images: ['images/Ostrich Leather Backpack.jpeg','images/Ostrich Leather Bag.jpeg','images/Ostrich Bag.jpeg'],
+    description: 'A masterwork of artisan craft — this backpack is fashioned from premium ostrich leather sourced from the Karoo region.',
+    long_desc: 'Ostrich leather is among the most durable and supple leathers in the world. The follicle bumps characteristic of ostrich skin develop a natural patina with use, making every bag truly one-of-a-kind. This backpack features a padded laptop sleeve, two interior pockets, and adjustable shoulder straps lined with nubuck for comfort.',
+    features: ['Padded 15" laptop sleeve','Exterior zip pocket','Brass hardware','Water-resistant treatment','Lifetime craftsman guarantee'],
+    details: { Material:'Full-grain ostrich leather', Lining:'Suede microfibre', Dimensions:'38 × 28 × 14 cm', Closure:'YKK brass zip', Origin:'Handcrafted in South Africa' },
+    rating: 4.8, reviewCount: 14, ratingBreakdown: [9,4,1,0,0],
+  },
+  'ostrich-tan': {
+    name: 'Classic Tan Ostrich Bag', category: 'Ostrich Leather', badge: 'Handcrafted',
+    price: 3200, type: 'bag',
+    images: ['images/Ostrich Bag.jpeg','images/Ostrich Leather Backpack.jpeg','images/Ladies Ostrich Bag.jpeg'],
+    description: 'A classic structured tote in warm tan ostrich leather.',
+    long_desc: 'Hand-stitched by master leather artisans, this tote showcases the full beauty of ostrich hide.',
+    features: ['Detachable wrist strap','Interior zip pocket','Antique gold hardware','Dust bag included','Certificate of authenticity'],
+    details: { Material:'Ostrich leg leather', Lining:'Cotton sateen', Dimensions:'34 × 24 × 12 cm', Closure:'Magnetic snap', Origin:'Handcrafted in South Africa' },
+    rating: 4.6, reviewCount: 9, ratingBreakdown: [6,2,1,0,0],
+  },
+  'eva-clutch': {
+    name: 'Eva Ladies Clutch', category: 'Ostrich Leather', badge: 'Limited Edition',
+    price: 1950, type: 'bag',
+    images: ['images/Ladies Ostrich Bag.jpeg','images/Ostrich Bag.jpeg','images/Ostrich Leather Bag.jpeg'],
+    description: 'The Eva clutch is a statement piece crafted from lustrous ostrich leather.',
+    long_desc: 'Part of our limited Eva collection, finished by hand with silk lining and a polished turn-lock clasp.',
+    features: ['Chain strap included','Silk lining','Limited edition number stamped inside','Gift box packaging','Artisan signature tag'],
+    details: { Material:'Full-grain ostrich leather', Lining:'Silk charmeuse', Dimensions:'28 × 14 × 3 cm', Closure:'Turn-lock clasp', Origin:'Handcrafted in South Africa' },
+    rating: 5.0, reviewCount: 6, ratingBreakdown: [6,0,0,0,0],
+  },
+  'ostrich-navy': {
+    name: 'Navy Structured Tote', category: 'Ostrich Leather', badge: 'Handcrafted',
+    price: 2750, type: 'bag',
+    images: ['images/Ostrich Leather Bag.jpeg','images/Ostrich Leather Backpack.jpeg','images/Ostrich Bag.jpeg'],
+    description: 'The deep navy finish gives this structured tote an understated luxury.',
+    long_desc: 'Custom-dyed in a proprietary navy tone that maintains the natural texture of the ostrich quill pattern.',
+    features: ['Base structure insert','Interior card slots','Sterling silver hardware','Shoulder strap + handles','Protective leather feet'],
+    details: { Material:'Dyed ostrich leather', Lining:'Alcantara microsuede', Dimensions:'36 × 26 × 14 cm', Closure:'Top zip with tassel', Origin:'Handcrafted in South Africa' },
+    rating: 4.7, reviewCount: 11, ratingBreakdown: [8,2,1,0,0],
+  },
+  'wildebeest-rug': {
+    name: 'Black Wildebeest Hide Rug', category: 'Animal Hide Rugs', badge: 'Contact for Price',
+    price: null, type: 'rug',
+    images: ['images/black-wildebeest-rug.png','images/Eland-Rug.png'],
+    description: 'A magnificent black wildebeest hide, ethically sourced from game reserves.',
+    long_desc: 'Each hide is individually selected for quality and character. Used as a floor rug, wall hanging, or furniture throw, it is a striking statement of African heritage.',
+    features: ['Unique one-of-a-kind piece','Professionally tanned & finished','Naturally hypoallergenic','Suitable for floors & walls','Pest-resistant treatment'],
+    details: { 'Hide Type':'Black wildebeest', 'Average Size':'180 × 140 cm', Treatment:'Chrome-tanned & hand-finished', Backing:'Optional felt backing', Sourcing:'Ethical game management' },
+    rating: 4.9, reviewCount: 5, ratingBreakdown: [5,0,0,0,0],
+  },
+  'eland-rug': {
+    name: 'Eland Hide Rug', category: 'Animal Hide Rugs', badge: 'Contact for Price',
+    price: null, type: 'rug',
+    images: ['images/Eland-Rug.png','images/black-wildebeest-rug.png'],
+    description: 'The eland is the largest antelope on earth, and its hide is correspondingly grand.',
+    long_desc: 'Larger than most bovine hides, an eland rug fills a room with presence. Our artisans treat every hide with traditional methods.',
+    features: ['One of the largest hide rugs available','Natural tawny & ochre tones','Tannin-cured for longevity','Suitable for high-traffic areas','Can be custom-trimmed to shape'],
+    details: { 'Hide Type':'Common eland', 'Average Size':'220 × 160 cm', Treatment:'Vegetable-tanned & oil-dressed', Backing:'Optional felt backing', Sourcing:'Ethical game management' },
+    rating: 4.8, reviewCount: 4, ratingBreakdown: [4,0,0,0,0],
+  },
+};
 
-  // ── HELPERS ──────────────────────────────────────────────────────────────
-  function getParam(key) {
-    return new URLSearchParams(window.location.search).get(key);
+const STATIC_REVIEWS = {
+  'ostrich-backpack': [
+    { reviewer_name:'Nomvula D.', rating:5, created_at:'2025-03-01', body:'I have never owned anything as beautiful. The quality of the leather is extraordinary — soft yet tough. I get compliments every single day.' },
+    { reviewer_name:'James K.',   rating:5, created_at:'2025-02-01', body:'Bought this as a gift for my wife and she absolutely loves it. The craftsmanship is exceptional. Worth every cent.' },
+    { reviewer_name:'Thabo M.',   rating:4, created_at:'2025-01-01', body:'Excellent bag, very well made. Took a few days to soften the leather but now it\'s perfect. Shipping was quick.' },
+  ],
+  'eva-clutch': [
+    { reviewer_name:'Lerato S.',  rating:5, created_at:'2025-04-01', body:'Absolutely stunning. I carried it to a gala dinner and everyone wanted to know where I got it. Truly special.' },
+    { reviewer_name:'Ayesha P.', rating:5, created_at:'2025-03-01', body:'The silk lining is divine and the turn-lock is so satisfying. Gift packaging was gorgeous too.' },
+  ],
+};
+
+// ── HELPERS ──────────────────────────────────────────────────────────────────
+function getParam(key) { return new URLSearchParams(window.location.search).get(key); }
+
+function formatPrice(price) {
+  return new Intl.NumberFormat('en-ZA', { style:'currency', currency:'ZAR', maximumFractionDigits:0 }).format(price);
+}
+
+function renderStarsEl(rating, max = 5) {
+  const div = document.createElement('div');
+  div.className = 'stars';
+  for (let i = 1; i <= max; i++) {
+    const s = document.createElement('span');
+    s.className = 'star' + (i <= Math.round(rating) ? ' filled' : '');
+    s.textContent = '★';
+    div.appendChild(s);
   }
+  return div;
+}
 
-  function formatPrice(price) {
-    return new Intl.NumberFormat('en-ZA', { style: 'currency', currency: 'ZAR', maximumFractionDigits: 0 }).format(price);
-  }
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
 
-  function renderStars(count, max = 5, interactive = false, containerId = '') {
-    const container = document.createElement('div');
-    container.className = 'stars';
-    for (let i = 1; i <= max; i++) {
-      const s = document.createElement('span');
-      s.className = 'star' + (i <= Math.round(count) ? ' filled' : '');
-      s.textContent = '★';
-      container.appendChild(s);
+function safeJson(val, fallback) {
+  if (Array.isArray(val) || (val && typeof val === 'object')) return val;
+  try { return JSON.parse(val); } catch { return fallback; }
+}
+
+// ── MAIN: async init ─────────────────────────────────────────────────────────
+const productId = getParam('id') || 'ostrich-backpack';
+let p = null; // populated by loadProduct()
+
+async function loadProduct() {
+  if (sb) {
+    const { data, error } = await sb.from('products').select('*').eq('id', productId).single();
+    if (data && !error) {
+      const imgs     = safeJson(data.images,   []);
+      const features = safeJson(data.features, []);
+      const details  = safeJson(data.details,  {});
+      p = {
+        name: data.name, category: data.category, badge: data.badge,
+        price: data.price, type: data.type, active: data.active,
+        images: imgs, description: data.description, long_desc: data.long_desc,
+        features, details,
+        // Rating computed from reviews below
+        rating: 0, reviewCount: 0, ratingBreakdown: [0,0,0,0,0],
+      };
     }
-    return container;
   }
 
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 3000);
+  // Fallback: static data with localStorage price override
+  if (!p) {
+    p = STATIC_PRODUCTS[productId];
+    if (p) {
+      p = { ...p };
+      const lsPrices = JSON.parse(localStorage.getItem('fleekup_prices') || '{}');
+      if (lsPrices[productId] != null) p.price = lsPrices[productId];
+      // Override from admin-edited localStorage product
+      const lsProducts = JSON.parse(localStorage.getItem('fleekup_products') || '{}');
+      if (lsProducts[productId]) Object.assign(p, lsProducts[productId]);
+    }
   }
-
-  // ── LOAD PRODUCT ─────────────────────────────────────────────────────────
-  const productId = getParam('id') || 'ostrich-backpack';
-  const p = PRODUCTS[productId];
-
-  // Read admin-overridden prices from localStorage
-  const adminPrices = JSON.parse(localStorage.getItem('fleekup_prices') || '{}');
-  if (adminPrices[productId] != null) p.price = adminPrices[productId];
 
   if (!p) {
-    document.querySelector('.product-section').innerHTML = '<p style="padding:40px;text-align:center;color:var(--text-muted)">Product not found.</p>';
-  } else {
-    // Breadcrumb
-    document.getElementById('bc-category').textContent = p.category;
-    document.getElementById('bc-name').textContent = p.name;
-    document.title = p.name + ' — Fleek Up Home';
-
-    // Gallery
-    const mainImg = document.getElementById('main-img');
-    mainImg.src = p.images[0];
-    mainImg.alt = p.name;
-
-    const thumbsContainer = document.getElementById('thumbs-container');
-    p.images.forEach((src, i) => {
-      const div = document.createElement('div');
-      div.className = 'thumb' + (i === 0 ? ' active' : '');
-      const img = document.createElement('img');
-      img.src = src;
-      img.alt = p.name + ' view ' + (i + 1);
-      div.appendChild(img);
-      div.addEventListener('click', () => {
-        mainImg.src = src;
-        thumbsContainer.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
-        div.classList.add('active');
-      });
-      thumbsContainer.appendChild(div);
-    });
-
-    // Badge
-    document.getElementById('product-badge').textContent = p.badge;
-
-    // Name & category
-    document.getElementById('product-name').textContent = p.name;
-    document.getElementById('product-category').textContent = p.category;
-
-    // Rating
-    const starsEl = document.getElementById('rating-stars');
-    starsEl.replaceWith(renderStars(p.rating));
-    document.getElementById('rating-count').textContent = `${p.rating.toFixed(1)} (${p.reviewCount} reviews)`;
-
-    // Price
-    const priceEl = document.getElementById('price-display');
-    if (p.price) {
-      priceEl.innerHTML = `<div class="product-price"><span class="currency">R</span>${p.price.toLocaleString('en-ZA')}</div>`;
-    } else {
-      priceEl.innerHTML = `<p class="product-price-contact">Contact us for pricing</p>`;
-    }
-
-    // Description
-    document.getElementById('product-desc').textContent = p.description;
-
-    // Details
-    const detailsEl = document.getElementById('product-details');
-    Object.entries(p.details).forEach(([label, value]) => {
-      detailsEl.innerHTML += `<div class="detail-row"><span class="detail-label">${label}</span><span class="detail-value">${value}</span></div>`;
-    });
-
-    // CTA
-    const ctaArea = document.getElementById('cta-area');
-    if (p.type === 'rug' || !p.price) {
-      ctaArea.innerHTML = `
-        <div class="contact-cta">
-          <a href="index.html#contact" class="btn-primary" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none;">Enquire Now</a>
-          <button class="btn-secondary" onclick="showToast('Added to wishlist')">♡ Wishlist</button>
-        </div>`;
-    } else {
-      ctaArea.innerHTML = `
-        <div class="qty-row">
-          <div class="qty-control">
-            <button class="qty-btn" onclick="changeQty(-1)">−</button>
-            <input class="qty-input" id="qty" type="number" value="1" min="1" max="10" />
-            <button class="qty-btn" onclick="changeQty(1)">+</button>
-          </div>
-          <button class="btn-primary" onclick="addToCart()">Add to Cart</button>
-          <button class="btn-secondary" onclick="showToast('Added to wishlist')">♡</button>
-        </div>`;
-    }
-
-    // Tab: Description
-    const tabDescContent = document.getElementById('tab-desc-content');
-    tabDescContent.innerHTML = `
-      <div>
-        <h3>About This Piece</h3>
-        <p>${p.longDesc}</p>
-      </div>
-      <div>
-        <h3>Key Features</h3>
-        <ul>${p.features.map(f => `<li>${f}</li>`).join('')}</ul>
-      </div>`;
-
-    // Tab: Reviews
-    const bigNum = document.getElementById('big-rating-num');
-    bigNum.textContent = p.rating.toFixed(1);
-    const bigStars = document.getElementById('big-rating-stars');
-    bigStars.replaceWith(renderStars(p.rating));
-    document.getElementById('big-rating-count').textContent = `Based on ${p.reviewCount} reviews`;
-
-    const barsEl = document.getElementById('rating-bars');
-    const labels = ['5 stars', '4 stars', '3 stars', '2 stars', '1 star'];
-    p.ratingBreakdown.forEach((count, i) => {
-      const pct = p.reviewCount ? Math.round(count / p.reviewCount * 100) : 0;
-      barsEl.innerHTML += `
-        <div class="bar-row">
-          <span style="min-width:52px">${labels[i]}</span>
-          <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
-          <span style="min-width:28px">${count}</span>
-        </div>`;
-    });
-
-    // Reviews list — use sample or load from localStorage
-    const storedReviews = JSON.parse(localStorage.getItem('fleekup_reviews_' + productId) || '[]');
-    const defaultReviews = SAMPLE_REVIEWS[productId] || [
-      { name: 'A. Verified Buyer', rating: 5, date: 'Recent', body: 'Incredible quality. Exactly as described — very happy with this purchase.' }
-    ];
-    const allReviews = [...defaultReviews, ...storedReviews];
-    const reviewsList = document.getElementById('reviews-list');
-    allReviews.forEach(r => {
-      reviewsList.innerHTML += `
-        <div class="review-card">
-          <div class="review-header">
-            <div>
-              <div class="reviewer-name">${r.name}</div>
-              <div class="stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</div>
-            </div>
-            <span class="review-date">${r.date}</span>
-          </div>
-          <p class="review-body">${r.body}</p>
-        </div>`;
-    });
-
-    // Related products
-    const related = Object.entries(PRODUCTS)
-      .filter(([id]) => id !== productId && PRODUCTS[id].type === p.type)
-      .slice(0, 4);
-    const relatedGrid = document.getElementById('related-grid');
-    (related.length ? related : Object.entries(PRODUCTS).filter(([id]) => id !== productId).slice(0, 4))
-      .forEach(([id, rp]) => {
-        const adminPrice = adminPrices[id] != null ? adminPrices[id] : rp.price;
-        relatedGrid.innerHTML += `
-          <div class="product-card" onclick="window.location='product.html?id=${id}'">
-            <img class="product-card-img" src="${rp.images[0]}" alt="${rp.name}" />
-            <div class="product-card-body">
-              <div class="product-card-name">${rp.name}</div>
-              <div class="product-card-price">${adminPrice ? formatPrice(adminPrice) : 'Contact for price'}</div>
-            </div>
-          </div>`;
-      });
+    document.querySelector('.product-section').innerHTML =
+      '<p style="padding:64px;text-align:center;color:var(--text-muted);font-size:18px">Product not found.</p>';
+    return;
   }
 
-  // ── TABS ─────────────────────────────────────────────────────────────────
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  renderProduct();
+  await loadReviewsAndRender();
+  renderRelated();
+}
+
+// ── RENDER PRODUCT ────────────────────────────────────────────────────────────
+function renderProduct() {
+  document.title = p.name + ' — Fleek Up Home';
+  document.getElementById('bc-category').textContent = p.category;
+  document.getElementById('bc-name').textContent     = p.name;
+  document.getElementById('product-badge').textContent   = p.badge || 'Handcrafted';
+  document.getElementById('product-name').textContent    = p.name;
+  document.getElementById('product-category').textContent = p.category;
+
+  // Gallery
+  const mainImg = document.getElementById('main-img');
+  mainImg.src = p.images[0] || '';
+  mainImg.alt = p.name;
+
+  const thumbsContainer = document.getElementById('thumbs-container');
+  thumbsContainer.innerHTML = '';
+  p.images.forEach((src, i) => {
+    const div = document.createElement('div');
+    div.className = 'thumb' + (i === 0 ? ' active' : '');
+    const img = document.createElement('img');
+    img.src = src; img.alt = p.name + ' view ' + (i + 1);
+    div.appendChild(img);
+    div.addEventListener('click', () => {
+      mainImg.src = src;
+      thumbsContainer.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+      div.classList.add('active');
     });
+    thumbsContainer.appendChild(div);
   });
 
-  // ── STAR PICKER ──────────────────────────────────────────────────────────
-  let selectedRating = 0;
-  const picks = document.querySelectorAll('.star-pick');
-  picks.forEach(star => {
-    star.addEventListener('mouseover', () => {
-      picks.forEach(s => s.classList.toggle('active', s.dataset.val <= star.dataset.val));
-    });
-    star.addEventListener('mouseout', () => {
-      picks.forEach(s => s.classList.toggle('active', s.dataset.val <= selectedRating));
-    });
-    star.addEventListener('click', () => {
-      selectedRating = parseInt(star.dataset.val);
-      picks.forEach(s => s.classList.toggle('active', s.dataset.val <= selectedRating));
-    });
+  // Price
+  const priceEl = document.getElementById('price-display');
+  if (p.price != null) {
+    priceEl.innerHTML = `<div class="product-price"><span class="currency">R</span>${Number(p.price).toLocaleString('en-ZA')}</div>`;
+  } else {
+    priceEl.innerHTML = `<p class="product-price-contact">Contact us for pricing</p>`;
+  }
+
+  // Description
+  document.getElementById('product-desc').textContent = p.description || '';
+
+  // Specs
+  const detailsEl = document.getElementById('product-details');
+  detailsEl.innerHTML = '';
+  Object.entries(p.details || {}).forEach(([label, value]) => {
+    detailsEl.innerHTML += `<div class="detail-row"><span class="detail-label">${label}</span><span class="detail-value">${value}</span></div>`;
   });
 
-  // ── REVIEW FORM ──────────────────────────────────────────────────────────
-  document.getElementById('review-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    if (!selectedRating) { showToast('Please select a star rating'); return; }
-    const name = document.getElementById('rev-name').value.trim();
-    const body = document.getElementById('rev-body').value.trim();
-    const review = { name, rating: selectedRating, date: new Date().toLocaleDateString('en-ZA', { month: 'long', year: 'numeric' }), body };
+  // CTA
+  const ctaArea = document.getElementById('cta-area');
+  if (p.type === 'rug' || p.price == null) {
+    ctaArea.innerHTML = `
+      <div class="contact-cta">
+        <a href="index.html#contact" class="btn-primary" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none;">Enquire Now</a>
+        <button class="btn-secondary" onclick="showToast('Added to wishlist')">♡ Wishlist</button>
+      </div>`;
+  } else {
+    ctaArea.innerHTML = `
+      <div class="qty-row">
+        <div class="qty-control">
+          <button class="qty-btn" onclick="changeQty(-1)">−</button>
+          <input class="qty-input" id="qty" type="number" value="1" min="1" max="10" />
+          <button class="qty-btn" onclick="changeQty(1)">+</button>
+        </div>
+        <button class="btn-primary" onclick="addToCart()">Add to Cart</button>
+        <button class="btn-secondary" onclick="showToast('Added to wishlist')">♡</button>
+      </div>`;
+  }
+
+  // Tab: Description
+  document.getElementById('tab-desc-content').innerHTML = `
+    <div>
+      <h3>About This Piece</h3>
+      <p>${p.long_desc || p.description || ''}</p>
+    </div>
+    <div>
+      <h3>Key Features</h3>
+      <ul>${(p.features || []).map(f => `<li>${f}</li>`).join('')}</ul>
+    </div>`;
+}
+
+// ── REVIEWS ───────────────────────────────────────────────────────────────────
+async function loadReviewsAndRender() {
+  let reviews = [];
+
+  if (sb) {
+    const { data } = await sb.from('reviews')
+      .select('*')
+      .eq('product_id', productId)
+      .order('created_at', { ascending: false });
+    reviews = data || [];
+  } else {
+    // localStorage reviews + static samples
+    const stored  = JSON.parse(localStorage.getItem('fleekup_reviews_' + productId) || '[]');
+    const samples = STATIC_REVIEWS[productId] || [
+      { reviewer_name:'A. Verified Buyer', rating:5, created_at: new Date().toISOString(), body:'Incredible quality. Exactly as described — very happy with this purchase.' }
+    ];
+    reviews = [...samples, ...stored];
+  }
+
+  // Compute rating from real reviews
+  if (reviews.length) {
+    const avg = reviews.reduce((s, r) => s + r.rating, 0) / reviews.length;
+    p.rating      = Math.round(avg * 10) / 10;
+    p.reviewCount = reviews.length;
+    const breakdown = [0,0,0,0,0];
+    reviews.forEach(r => { breakdown[5 - r.rating]++; });
+    p.ratingBreakdown = breakdown;
+  }
+
+  // Rating row (top of product info)
+  const starsEl = document.getElementById('rating-stars');
+  starsEl.replaceWith(renderStarsEl(p.rating));
+  document.getElementById('rating-count').textContent = `${p.rating.toFixed(1)} (${p.reviewCount} review${p.reviewCount !== 1 ? 's' : ''})`;
+
+  // Big rating in reviews tab
+  document.getElementById('big-rating-num').textContent = p.rating.toFixed(1);
+  const bigStars = document.getElementById('big-rating-stars');
+  bigStars.replaceWith(renderStarsEl(p.rating));
+  document.getElementById('big-rating-count').textContent = `Based on ${p.reviewCount} review${p.reviewCount !== 1 ? 's' : ''}`;
+
+  // Rating bars
+  const barsEl = document.getElementById('rating-bars');
+  barsEl.innerHTML = '';
+  ['5 stars','4 stars','3 stars','2 stars','1 star'].forEach((label, i) => {
+    const count = p.ratingBreakdown[i] || 0;
+    const pct   = p.reviewCount ? Math.round(count / p.reviewCount * 100) : 0;
+    barsEl.innerHTML += `
+      <div class="bar-row">
+        <span style="min-width:52px">${label}</span>
+        <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
+        <span style="min-width:28px">${count}</span>
+      </div>`;
+  });
+
+  // Reviews list
+  const reviewsList = document.getElementById('reviews-list');
+  reviewsList.innerHTML = '';
+  if (!reviews.length) {
+    reviewsList.innerHTML = '<p style="color:var(--text-muted);font-size:15px">No reviews yet — be the first!</p>';
+    return;
+  }
+  reviews.forEach(r => appendReviewCard(reviewsList, r));
+}
+
+function appendReviewCard(container, r) {
+  const date = r.created_at
+    ? new Date(r.created_at).toLocaleDateString('en-ZA', { month:'long', year:'numeric' })
+    : 'Recent';
+  container.innerHTML += `
+    <div class="review-card">
+      <div class="review-header">
+        <div>
+          <div class="reviewer-name">${r.reviewer_name}</div>
+          <div class="stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</div>
+        </div>
+        <span class="review-date">${date}</span>
+      </div>
+      <p class="review-body">${r.body}</p>
+    </div>`;
+}
+
+// ── RELATED PRODUCTS ─────────────────────────────────────────────────────────
+async function renderRelated() {
+  let allProducts = [];
+
+  if (sb) {
+    const { data } = await sb.from('products')
+      .select('id, name, price, type, images')
+      .eq('active', true)
+      .neq('id', productId);
+    allProducts = data || [];
+  } else {
+    const lsProducts = JSON.parse(localStorage.getItem('fleekup_products') || '{}');
+    allProducts = Object.entries({ ...STATIC_PRODUCTS, ...lsProducts })
+      .filter(([id]) => id !== productId)
+      .map(([id, prod]) => ({ id, ...prod }));
+  }
+
+  // Same type first, then others, limit 4
+  const sameType  = allProducts.filter(x => x.type === p.type);
+  const otherType = allProducts.filter(x => x.type !== p.type);
+  const related   = [...sameType, ...otherType].slice(0, 4);
+
+  const grid = document.getElementById('related-grid');
+  grid.innerHTML = '';
+  related.forEach(rp => {
+    const imgs  = safeJson(rp.images, []);
+    const price = rp.price != null ? formatPrice(rp.price) : 'Contact for price';
+    grid.innerHTML += `
+      <div class="product-card" onclick="location.href='product.html?id=${rp.id}'">
+        <img class="product-card-img" src="${imgs[0] || ''}" alt="${rp.name}" />
+        <div class="product-card-body">
+          <div class="product-card-name">${rp.name}</div>
+          <div class="product-card-price">${price}</div>
+        </div>
+      </div>`;
+  });
+}
+
+// ── TABS ─────────────────────────────────────────────────────────────────────
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(pn => pn.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ── STAR PICKER ──────────────────────────────────────────────────────────────
+let selectedRating = 0;
+const picks = document.querySelectorAll('.star-pick');
+picks.forEach(star => {
+  star.addEventListener('mouseover', () => {
+    picks.forEach(s => s.classList.toggle('active', s.dataset.val <= star.dataset.val));
+  });
+  star.addEventListener('mouseout', () => {
+    picks.forEach(s => s.classList.toggle('active', s.dataset.val <= selectedRating));
+  });
+  star.addEventListener('click', () => {
+    selectedRating = parseInt(star.dataset.val);
+    picks.forEach(s => s.classList.toggle('active', s.dataset.val <= selectedRating));
+  });
+});
+
+// ── REVIEW FORM ───────────────────────────────────────────────────────────────
+document.getElementById('review-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  if (!selectedRating) { showToast('Please select a star rating'); return; }
+
+  const name = document.getElementById('rev-name').value.trim();
+  const body = document.getElementById('rev-body').value.trim();
+  if (!name || !body) { showToast('Please fill in all fields'); return; }
+
+  const submitBtn = this.querySelector('button[type="submit"]');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Submitting…';
+
+  const review = {
+    product_id:    productId,
+    reviewer_name: name,
+    rating:        selectedRating,
+    body,
+    created_at:    new Date().toISOString(),
+  };
+
+  if (sb) {
+    const { error } = await sb.from('reviews').insert(review);
+    if (error) {
+      showToast('Could not save review: ' + error.message);
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit Review';
+      return;
+    }
+  } else {
+    // localStorage fallback
     const key = 'fleekup_reviews_' + productId;
     const existing = JSON.parse(localStorage.getItem(key) || '[]');
     existing.push(review);
     localStorage.setItem(key, JSON.stringify(existing));
-    showToast('Thank you for your review!');
-    this.reset();
-    selectedRating = 0;
-    picks.forEach(s => s.classList.remove('active'));
-    // Append to DOM
-    const reviewsList = document.getElementById('reviews-list');
-    reviewsList.innerHTML += `
-      <div class="review-card">
-        <div class="review-header">
-          <div>
-            <div class="reviewer-name">${review.name}</div>
-            <div class="stars">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</div>
-          </div>
-          <span class="review-date">${review.date}</span>
-        </div>
-        <p class="review-body">${review.body}</p>
-      </div>`;
-  });
-
-  // ── QTY + CART ───────────────────────────────────────────────────────────
-  function changeQty(delta) {
-    const input = document.getElementById('qty');
-    if (!input) return;
-    const newVal = Math.min(10, Math.max(1, parseInt(input.value) + delta));
-    input.value = newVal;
   }
 
-  function addToCart() {
-    const qty = parseInt(document.getElementById('qty')?.value || 1);
-    showToast(`${qty}× ${p.name} added to cart`);
-  }
+  showToast('Thank you for your review!');
+  this.reset();
+  selectedRating = 0;
+  picks.forEach(s => s.classList.remove('active'));
+  submitBtn.disabled = false;
+  submitBtn.textContent = 'Submit Review';
+
+  // Append to visible list immediately
+  const reviewsList = document.getElementById('reviews-list');
+  appendReviewCard(reviewsList, review);
+
+  // Update review count in heading
+  p.reviewCount++;
+  document.getElementById('rating-count').textContent =
+    `${p.rating.toFixed(1)} (${p.reviewCount} review${p.reviewCount !== 1 ? 's' : ''})`;
+  document.getElementById('big-rating-count').textContent =
+    `Based on ${p.reviewCount} review${p.reviewCount !== 1 ? 's' : ''}`;
+});
+
+// ── QTY + CART ────────────────────────────────────────────────────────────────
+function changeQty(delta) {
+  const input = document.getElementById('qty');
+  if (!input) return;
+  input.value = Math.min(10, Math.max(1, parseInt(input.value) + delta));
+}
+
+function addToCart() {
+  const qty = parseInt(document.getElementById('qty')?.value || 1);
+  showToast(`${qty}× ${p.name} added to cart`);
+}
+
+// ── BOOT ──────────────────────────────────────────────────────────────────────
+loadProduct();
 </script>
 </body>
 </html>
