@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product — Fleek Up Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --gold: #B85C38;
+      --gold-light: #CE7A57;
+      --gold-pale: #F0DDD5;
+      --black: #2B1A12;
+      --dark: #3A2416;
+      --dark-2: #EDE3D4;
+      --dark-3: #E5D8C5;
+      --mid: #7A5A47;
+      --text-muted: rgba(58,36,22,0.55);
+      --text-light: rgba(58,36,22,0.82);
+      --white: #ffffff;
+      --border: rgba(92,61,46,0.15);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #F7F0E6;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: rgba(247,240,230,0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .header-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .logo img { height: 52px; width: auto; mix-blend-mode: multiply; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--dark);
+      opacity: 0.75;
+      transition: opacity 0.2s;
+    }
+    .nav-links a:hover { opacity: 1; }
+    .header-actions { display: flex; gap: 16px; align-items: center; }
+    .icon-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--dark);
+      opacity: 0.75;
+      transition: opacity 0.2s;
+      padding: 4px;
+    }
+    .icon-btn:hover { opacity: 1; }
+    .icon-btn svg { display: block; }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 18px 32px 0;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .breadcrumb a { color: var(--text-muted); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--gold); }
+    .breadcrumb span { color: var(--text-muted); }
+
+    /* ── PRODUCT LAYOUT ── */
+    .product-section {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 32px 32px 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    /* ── GALLERY ── */
+    .gallery { display: flex; flex-direction: column; gap: 16px; }
+    .gallery-main {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4/5;
+      overflow: hidden;
+      border-radius: 4px;
+      background: var(--dark-3);
+    }
+    .gallery-main img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .gallery-main:hover img { transform: scale(1.03); }
+    .gallery-badge {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: var(--gold);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 2px;
+    }
+    .gallery-thumbs {
+      display: flex;
+      gap: 10px;
+    }
+    .thumb {
+      width: 80px;
+      height: 80px;
+      flex-shrink: 0;
+      border-radius: 3px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .thumb.active { border-color: var(--gold); }
+    .thumb:hover { border-color: var(--gold-light); }
+
+    /* ── PRODUCT INFO ── */
+    .product-info { display: flex; flex-direction: column; gap: 24px; }
+
+    .product-category {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .product-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 3vw, 40px);
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--dark);
+    }
+
+    /* Star rating display */
+    .rating-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .stars { display: flex; gap: 3px; }
+    .star { font-size: 18px; color: #ccc; cursor: pointer; transition: color 0.15s; }
+    .star.filled { color: var(--gold); }
+    .star.half { color: var(--gold); }
+    .rating-count { font-size: 13px; color: var(--text-muted); }
+
+    .product-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+    .product-price .currency { font-size: 18px; vertical-align: top; margin-top: 6px; display: inline-block; }
+
+    .product-price-contact {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-style: italic;
+      color: var(--mid);
+    }
+
+    .product-divider { height: 1px; background: var(--border); }
+
+    .product-description {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      line-height: 1.75;
+      color: var(--text-light);
+    }
+
+    /* Details list */
+    .product-details { display: flex; flex-direction: column; gap: 10px; }
+    .detail-row {
+      display: flex;
+      gap: 12px;
+      font-size: 14px;
+    }
+    .detail-label {
+      font-weight: 600;
+      color: var(--mid);
+      min-width: 120px;
+      flex-shrink: 0;
+    }
+    .detail-value { color: var(--text-light); }
+
+    /* Quantity + CTA */
+    .qty-row {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    .qty-control {
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .qty-btn {
+      width: 40px;
+      height: 48px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 20px;
+      color: var(--dark);
+      transition: background 0.15s;
+    }
+    .qty-btn:hover { background: var(--dark-3); }
+    .qty-input {
+      width: 48px;
+      height: 48px;
+      border: none;
+      border-left: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      text-align: center;
+      font-size: 15px;
+      font-family: 'Inter', sans-serif;
+      color: var(--dark);
+      background: #fff;
+    }
+    .qty-input:focus { outline: none; }
+
+    .btn-primary {
+      flex: 1;
+      padding: 0 32px;
+      height: 48px;
+      background: var(--gold);
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-primary:hover { background: var(--gold-light); }
+
+    .btn-secondary {
+      padding: 0 24px;
+      height: 48px;
+      background: transparent;
+      color: var(--dark);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+
+    .contact-cta {
+      display: flex;
+      gap: 12px;
+    }
+    .contact-cta .btn-primary { flex: none; }
+
+    /* Trust badges */
+    .trust-row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--mid);
+    }
+    .trust-item svg { flex-shrink: 0; }
+
+    /* ── TABS (Description / Reviews) ── */
+    .tabs-section {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px 80px;
+    }
+    .tab-nav {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 40px;
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      padding: 14px 24px;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Description tab */
+    .tab-description {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+    }
+    .tab-description h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      margin-bottom: 16px;
+      color: var(--dark);
+    }
+    .tab-description p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px;
+      line-height: 1.8;
+      color: var(--text-light);
+      margin-bottom: 16px;
+    }
+    .tab-description ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .tab-description ul li {
+      font-size: 14px;
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .tab-description ul li::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* Reviews tab */
+    .reviews-summary {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
+      align-items: start;
+    }
+    .big-rating {
+      text-align: center;
+      background: var(--dark-3);
+      border-radius: 4px;
+      padding: 32px 40px;
+    }
+    .big-rating .number {
+      font-family: 'Playfair Display', serif;
+      font-size: 56px;
+      font-weight: 600;
+      color: var(--dark);
+      line-height: 1;
+    }
+    .big-rating .stars { justify-content: center; margin: 8px 0; }
+    .big-rating .count { font-size: 13px; color: var(--text-muted); }
+
+    .rating-bars { display: flex; flex-direction: column; gap: 10px; justify-content: center; }
+    .bar-row { display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--text-muted); }
+    .bar-track { flex: 1; height: 6px; background: var(--dark-3); border-radius: 3px; overflow: hidden; }
+    .bar-fill { height: 100%; background: var(--gold); border-radius: 3px; }
+
+    .reviews-list { display: flex; flex-direction: column; gap: 32px; }
+    .review-card {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 32px;
+    }
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+    .reviewer-name { font-weight: 600; font-size: 15px; color: var(--dark); }
+    .review-date { font-size: 13px; color: var(--text-muted); }
+    .review-body {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px;
+      line-height: 1.75;
+      color: var(--text-light);
+      margin-top: 8px;
+    }
+
+    /* Write-a-review form */
+    .write-review { margin-top: 48px; }
+    .write-review h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      margin-bottom: 24px;
+      color: var(--dark);
+    }
+    .review-form { display: flex; flex-direction: column; gap: 16px; max-width: 560px; }
+    .star-picker { display: flex; gap: 6px; }
+    .star-pick {
+      font-size: 28px;
+      color: #ccc;
+      cursor: pointer;
+      transition: color 0.15s;
+      line-height: 1;
+    }
+    .star-pick.active { color: var(--gold); }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: 13px; font-weight: 500; color: var(--mid); letter-spacing: 0.04em; }
+    .form-group input,
+    .form-group textarea {
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 12px 14px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      color: var(--dark);
+      background: #fff;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus { outline: none; border-color: var(--gold); }
+    .form-group textarea { min-height: 120px; resize: vertical; }
+
+    /* ── RELATED PRODUCTS ── */
+    .related-section {
+      background: var(--dark-2);
+      padding: 80px 32px;
+    }
+    .related-inner { max-width: 1280px; margin: 0 auto; }
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 40px;
+    }
+    .section-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(26px, 3vw, 36px);
+      font-weight: 600;
+      color: var(--dark);
+    }
+    .section-header a {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .section-header a:hover { border-bottom-color: var(--gold); }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .product-card {
+      background: #fff;
+      border-radius: 4px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .product-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(43,26,18,0.1); }
+    .product-card-img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      display: block;
+    }
+    .product-card-body { padding: 16px 18px 20px; }
+    .product-card-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+    .product-card-price { font-size: 14px; color: var(--mid); font-weight: 500; }
+
+    /* ── FOOTER ── */
+    footer {
+      background-color: var(--black);
+      color: rgba(240,221,213,0.7);
+      padding: 60px 32px 32px;
+    }
+    .footer-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+    .footer-brand img { height: 48px; width: auto; margin-bottom: 20px; filter: brightness(0) invert(1); }
+    .footer-brand p { font-size: 14px; line-height: 1.7; max-width: 260px; }
+    .footer-col h4 {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(240,221,213,0.9);
+      margin-bottom: 20px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col a { color: rgba(240,221,213,0.6); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+    .footer-col a:hover { color: rgba(240,221,213,0.95); }
+    .footer-bottom {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding-top: 24px;
+      border-top: 1px solid rgba(92,61,46,0.3);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+    }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      background: var(--black);
+      color: #fff;
+      padding: 14px 24px;
+      border-radius: 4px;
+      font-size: 14px;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.3s, transform 0.3s;
+      z-index: 9999;
+      pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 900px) {
+      .product-section { grid-template-columns: 1fr; gap: 40px; }
+      .tab-description { grid-template-columns: 1fr; }
+      .reviews-summary { grid-template-columns: 1fr; }
+      .related-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .header-inner { padding: 0 16px; }
+      .nav-links { display: none; }
+      .product-section { padding: 20px 16px 60px; }
+      .tabs-section { padding: 0 16px 60px; }
+      .related-grid { grid-template-columns: 1fr 1fr; }
+      .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="logo"><img src="images/logo2.png" alt="Fleek Up Home" /></a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html#bags">Bags</a></li>
+        <li><a href="index.html#rugs">Rugs</a></li>
+        <li><a href="index.html#about">Our Story</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" title="Search">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
+      <button class="icon-btn" title="Cart">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- BREADCRUMB -->
+<nav class="breadcrumb">
+  <a href="index.html">Home</a>
+  <span>›</span>
+  <span id="bc-category">Bags</span>
+  <span>›</span>
+  <span id="bc-name">Product</span>
+</nav>
+
+<!-- PRODUCT -->
+<section class="product-section">
+  <!-- GALLERY -->
+  <div class="gallery">
+    <div class="gallery-main">
+      <img id="main-img" src="" alt="Product" />
+      <span class="gallery-badge" id="product-badge">Handcrafted</span>
+    </div>
+    <div class="gallery-thumbs" id="thumbs-container"></div>
+  </div>
+
+  <!-- INFO -->
+  <div class="product-info">
+    <p class="product-category" id="product-category">Ostrich Leather</p>
+    <h1 class="product-name" id="product-name">Loading…</h1>
+
+    <div class="rating-row">
+      <div class="stars" id="rating-stars"></div>
+      <span class="rating-count" id="rating-count"></span>
+    </div>
+
+    <div id="price-display"></div>
+
+    <div class="product-divider"></div>
+
+    <p class="product-description" id="product-desc"></p>
+
+    <div class="product-details" id="product-details"></div>
+
+    <div class="product-divider"></div>
+
+    <div id="cta-area"></div>
+
+    <div class="trust-row">
+      <div class="trust-item">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Authentic & handcrafted
+      </div>
+      <div class="trust-item">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        Ships across SA
+      </div>
+      <div class="trust-item">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        Sustainably sourced
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TABS -->
+<section class="tabs-section">
+  <div class="tab-nav">
+    <button class="tab-btn active" data-tab="description">Description</button>
+    <button class="tab-btn" data-tab="reviews">Reviews</button>
+  </div>
+
+  <div class="tab-panel active" id="tab-description">
+    <div class="tab-description" id="tab-desc-content"></div>
+  </div>
+
+  <div class="tab-panel" id="tab-reviews">
+    <div class="reviews-summary">
+      <div class="big-rating">
+        <div class="number" id="big-rating-num">4.8</div>
+        <div class="stars" id="big-rating-stars"></div>
+        <div class="count" id="big-rating-count">Based on 12 reviews</div>
+      </div>
+      <div class="rating-bars" id="rating-bars"></div>
+    </div>
+    <div class="reviews-list" id="reviews-list"></div>
+
+    <div class="write-review">
+      <h3>Write a Review</h3>
+      <form class="review-form" id="review-form">
+        <div>
+          <label style="font-size:13px;font-weight:500;color:var(--mid);display:block;margin-bottom:8px;">Your Rating</label>
+          <div class="star-picker" id="star-picker">
+            <span class="star-pick" data-val="1">★</span>
+            <span class="star-pick" data-val="2">★</span>
+            <span class="star-pick" data-val="3">★</span>
+            <span class="star-pick" data-val="4">★</span>
+            <span class="star-pick" data-val="5">★</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" id="rev-name" placeholder="Jane Doe" required />
+        </div>
+        <div class="form-group">
+          <label>Review</label>
+          <textarea id="rev-body" placeholder="Share your experience with this product…" required></textarea>
+        </div>
+        <button type="submit" class="btn-primary" style="width:fit-content;padding:0 32px;">Submit Review</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- RELATED PRODUCTS -->
+<section class="related-section">
+  <div class="related-inner">
+    <div class="section-header">
+      <h2>You May Also Like</h2>
+      <a href="index.html">View All</a>
+    </div>
+    <div class="related-grid" id="related-grid"></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="images/logo2.png" alt="Fleek Up Home" />
+      <p>Handcrafted luxury goods from Southern Africa. Each piece carries the spirit of the land.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="index.html#bags">Ostrich Leather Bags</a></li>
+        <li><a href="index.html#rugs">Animal Hide Rugs</a></li>
+        <li><a href="index.html#new">New Arrivals</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="index.html#about">Our Story</a></li>
+        <li><a href="#">Sustainability</a></li>
+        <li><a href="#">Press</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Help</h4>
+      <ul>
+        <li><a href="#">Shipping & Returns</a></li>
+        <li><a href="#">Care Guide</a></li>
+        <li><a href="index.html#contact">Contact Us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Fleek Up Home. All rights reserved.</span>
+    <a href="admin.html" style="font-size:12px;color:rgba(240,221,213,0.3);text-decoration:none;">Admin</a>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // ── PRODUCT DATA ──────────────────────────────────────────────────────────
+  const PRODUCTS = {
+    'ostrich-backpack': {
+      name: 'Ostrich Leather Backpack',
+      category: 'Ostrich Leather',
+      badge: 'Bestseller',
+      price: 4850,
+      type: 'bag',
+      images: [
+        'images/Ostrich Leather Backpack.jpeg',
+        'images/Ostrich Leather Bag.jpeg',
+        'images/Ostrich Bag.jpeg',
+      ],
+      description: 'A masterwork of artisan craft — this backpack is fashioned from premium ostrich leather sourced from the Karoo region. The distinctive quill pattern catches the light beautifully, ageing with character and grace.',
+      details: {
+        'Material': 'Full-grain ostrich leather',
+        'Lining': 'Suede microfibre',
+        'Dimensions': '38 × 28 × 14 cm',
+        'Closure': 'YKK brass zip',
+        'Origin': 'Handcrafted in South Africa',
+      },
+      longDesc: 'Ostrich leather is among the most durable and supple leathers in the world. The follicle bumps characteristic of ostrich skin develop a natural patina with use, making every bag truly one-of-a-kind. This backpack features a padded laptop sleeve, two interior pockets, and adjustable shoulder straps lined with nubuck for comfort.',
+      features: ['Padded 15" laptop sleeve', 'Exterior zip pocket', 'Brass hardware', 'Water-resistant treatment', 'Lifetime craftsman guarantee'],
+      rating: 4.8,
+      reviewCount: 14,
+      ratingBreakdown: [9, 4, 1, 0, 0],
+    },
+    'ostrich-tan': {
+      name: 'Classic Tan Ostrich Bag',
+      category: 'Ostrich Leather',
+      badge: 'Handcrafted',
+      price: 3200,
+      type: 'bag',
+      images: [
+        'images/Ostrich Bag.jpeg',
+        'images/Ostrich Leather Backpack.jpeg',
+        'images/Ladies Ostrich Bag.jpeg',
+      ],
+      description: 'A classic structured tote in warm tan ostrich leather. Spacious enough for everyday use yet refined enough for evenings out. The natural quill pattern adds organic texture to every surface.',
+      details: {
+        'Material': 'Ostrich leg leather',
+        'Lining': 'Cotton sateen',
+        'Dimensions': '34 × 24 × 12 cm',
+        'Closure': 'Magnetic snap',
+        'Origin': 'Handcrafted in South Africa',
+      },
+      longDesc: 'Hand-stitched by master leather artisans, this tote showcases the full beauty of ostrich hide. The warm tan tone complements a wide range of outfits. Interior features a zip pocket and two slip pockets for organisation.',
+      features: ['Detachable wrist strap', 'Interior zip pocket', 'Antique gold hardware', 'Dust bag included', 'Certificate of authenticity'],
+      rating: 4.6,
+      reviewCount: 9,
+      ratingBreakdown: [6, 2, 1, 0, 0],
+    },
+    'eva-clutch': {
+      name: 'Eva Ladies Clutch',
+      category: 'Ostrich Leather',
+      badge: 'Limited Edition',
+      price: 1950,
+      type: 'bag',
+      images: [
+        'images/Ladies Ostrich Bag.jpeg',
+        'images/Ostrich Bag.jpeg',
+        'images/Ostrich Leather Bag.jpeg',
+      ],
+      description: 'The Eva clutch is a statement piece. Crafted from lustrous ostrich leather in a rich colour that transitions from deep burgundy to warm cocoa in different light.',
+      details: {
+        'Material': 'Full-grain ostrich leather',
+        'Lining': 'Silk charmeuse',
+        'Dimensions': '28 × 14 × 3 cm',
+        'Closure': 'Turn-lock clasp',
+        'Origin': 'Handcrafted in South Africa',
+      },
+      longDesc: 'Part of our limited Eva collection, this clutch is finished by hand with silk lining and a polished turn-lock clasp. The envelope silhouette is timeless and pairs equally well with formal and casual looks.',
+      features: ['Chain strap included', 'Silk lining', 'Limited edition number stamped inside', 'Gift box packaging', 'Artisan signature tag'],
+      rating: 5.0,
+      reviewCount: 6,
+      ratingBreakdown: [6, 0, 0, 0, 0],
+    },
+    'ostrich-navy': {
+      name: 'Navy Structured Tote',
+      category: 'Ostrich Leather',
+      badge: 'Handcrafted',
+      price: 2750,
+      type: 'bag',
+      images: [
+        'images/Ostrich Leather Bag.jpeg',
+        'images/Ostrich Leather Backpack.jpeg',
+        'images/Ostrich Bag.jpeg',
+      ],
+      description: 'The deep navy finish on this structured tote gives it an understated luxury. Paired with silver hardware and a structured frame, it makes a bold impression in boardrooms and boutiques alike.',
+      details: {
+        'Material': 'Dyed ostrich leather',
+        'Lining': 'Alcantara microsuede',
+        'Dimensions': '36 × 26 × 14 cm',
+        'Closure': 'Top zip with tassel',
+        'Origin': 'Handcrafted in South Africa',
+      },
+      longDesc: 'Custom-dyed in a proprietary navy tone that maintains the natural texture of the ostrich quill pattern. The structured base insert keeps the bag upright while carrying. Silver hardware adds a contemporary contrast.',
+      features: ['Base structure insert', 'Interior card slots', 'Sterling silver hardware', 'Shoulder strap + handles', 'Protective leather feet'],
+      rating: 4.7,
+      reviewCount: 11,
+      ratingBreakdown: [8, 2, 1, 0, 0],
+    },
+    'wildebeest-rug': {
+      name: 'Black Wildebeest Hide Rug',
+      category: 'Animal Hide Rugs',
+      badge: 'Contact for Price',
+      price: null,
+      type: 'rug',
+      images: [
+        'images/black-wildebeest-rug.png',
+        'images/Eland-Rug.png',
+      ],
+      description: 'A magnificent black wildebeest hide, ethically sourced from game reserves during regulated conservation culling. Each rug is unique — a true piece of African wilderness for your home.',
+      details: {
+        'Hide Type': 'Black wildebeest',
+        'Average Size': '180 × 140 cm',
+        'Treatment': 'Chrome-tanned & hand-finished',
+        'Backing': 'Optional felt backing',
+        'Sourcing': 'Ethical game management',
+      },
+      longDesc: 'Each hide is individually selected for quality and character. The deep black and brown tones of the wildebeest coat bring drama and warmth to any space. Used as a floor rug, wall hanging, or furniture throw, it is a striking statement of African heritage.',
+      features: ['Unique one-of-a-kind piece', 'Professionally tanned & finished', 'Naturally hypoallergenic', 'Suitable for floors & walls', 'Pest-resistant treatment'],
+      rating: 4.9,
+      reviewCount: 5,
+      ratingBreakdown: [5, 0, 0, 0, 0],
+    },
+    'eland-rug': {
+      name: 'Eland Hide Rug',
+      category: 'Animal Hide Rugs',
+      badge: 'Contact for Price',
+      price: null,
+      type: 'rug',
+      images: [
+        'images/Eland-Rug.png',
+        'images/black-wildebeest-rug.png',
+      ],
+      description: 'The eland is the largest antelope on earth, and its hide is correspondingly grand. Warm buff tones with distinctive natural markings make this rug a centrepiece of any room.',
+      details: {
+        'Hide Type': 'Common eland',
+        'Average Size': '220 × 160 cm',
+        'Treatment': 'Vegetable-tanned & oil-dressed',
+        'Backing': 'Optional felt backing',
+        'Sourcing': 'Ethical game management',
+      },
+      longDesc: 'Larger than most bovine hides, an eland rug fills a room with presence. The warm tawny tones and subtle striping are unique to each animal. Our artisans treat every hide with traditional methods that preserve its natural character while ensuring durability.',
+      features: ['One of the largest hide rugs available', 'Natural tawny & ochre tones', 'Tannin-cured for longevity', 'Suitable for high-traffic areas', 'Can be custom-trimmed to shape'],
+      rating: 4.8,
+      reviewCount: 4,
+      ratingBreakdown: [4, 0, 0, 0, 0],
+    },
+  };
+
+  const SAMPLE_REVIEWS = {
+    'ostrich-backpack': [
+      { name: 'Nomvula D.', rating: 5, date: 'March 2025', body: 'I have never owned anything as beautiful. The quality of the leather is extraordinary — soft yet tough. I get compliments every single day.' },
+      { name: 'James K.', rating: 5, date: 'February 2025', body: 'Bought this as a gift for my wife and she absolutely loves it. The craftsmanship is exceptional. Worth every cent.' },
+      { name: 'Thabo M.', rating: 4, date: 'January 2025', body: 'Excellent bag, very well made. Took a few days to soften the leather but now it\'s perfect. Shipping was quick.' },
+    ],
+    'eva-clutch': [
+      { name: 'Lerato S.', rating: 5, date: 'April 2025', body: 'Absolutely stunning. I carried it to a gala dinner and everyone wanted to know where I got it. Truly special.' },
+      { name: 'Ayesha P.', rating: 5, date: 'March 2025', body: 'The silk lining is divine and the turn-lock is so satisfying. Gift packaging was gorgeous too.' },
+    ],
+  };
+
+  // ── HELPERS ──────────────────────────────────────────────────────────────
+  function getParam(key) {
+    return new URLSearchParams(window.location.search).get(key);
+  }
+
+  function formatPrice(price) {
+    return new Intl.NumberFormat('en-ZA', { style: 'currency', currency: 'ZAR', maximumFractionDigits: 0 }).format(price);
+  }
+
+  function renderStars(count, max = 5, interactive = false, containerId = '') {
+    const container = document.createElement('div');
+    container.className = 'stars';
+    for (let i = 1; i <= max; i++) {
+      const s = document.createElement('span');
+      s.className = 'star' + (i <= Math.round(count) ? ' filled' : '');
+      s.textContent = '★';
+      container.appendChild(s);
+    }
+    return container;
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  // ── LOAD PRODUCT ─────────────────────────────────────────────────────────
+  const productId = getParam('id') || 'ostrich-backpack';
+  const p = PRODUCTS[productId];
+
+  // Read admin-overridden prices from localStorage
+  const adminPrices = JSON.parse(localStorage.getItem('fleekup_prices') || '{}');
+  if (adminPrices[productId] != null) p.price = adminPrices[productId];
+
+  if (!p) {
+    document.querySelector('.product-section').innerHTML = '<p style="padding:40px;text-align:center;color:var(--text-muted)">Product not found.</p>';
+  } else {
+    // Breadcrumb
+    document.getElementById('bc-category').textContent = p.category;
+    document.getElementById('bc-name').textContent = p.name;
+    document.title = p.name + ' — Fleek Up Home';
+
+    // Gallery
+    const mainImg = document.getElementById('main-img');
+    mainImg.src = p.images[0];
+    mainImg.alt = p.name;
+
+    const thumbsContainer = document.getElementById('thumbs-container');
+    p.images.forEach((src, i) => {
+      const div = document.createElement('div');
+      div.className = 'thumb' + (i === 0 ? ' active' : '');
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = p.name + ' view ' + (i + 1);
+      div.appendChild(img);
+      div.addEventListener('click', () => {
+        mainImg.src = src;
+        thumbsContainer.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+        div.classList.add('active');
+      });
+      thumbsContainer.appendChild(div);
+    });
+
+    // Badge
+    document.getElementById('product-badge').textContent = p.badge;
+
+    // Name & category
+    document.getElementById('product-name').textContent = p.name;
+    document.getElementById('product-category').textContent = p.category;
+
+    // Rating
+    const starsEl = document.getElementById('rating-stars');
+    starsEl.replaceWith(renderStars(p.rating));
+    document.getElementById('rating-count').textContent = `${p.rating.toFixed(1)} (${p.reviewCount} reviews)`;
+
+    // Price
+    const priceEl = document.getElementById('price-display');
+    if (p.price) {
+      priceEl.innerHTML = `<div class="product-price"><span class="currency">R</span>${p.price.toLocaleString('en-ZA')}</div>`;
+    } else {
+      priceEl.innerHTML = `<p class="product-price-contact">Contact us for pricing</p>`;
+    }
+
+    // Description
+    document.getElementById('product-desc').textContent = p.description;
+
+    // Details
+    const detailsEl = document.getElementById('product-details');
+    Object.entries(p.details).forEach(([label, value]) => {
+      detailsEl.innerHTML += `<div class="detail-row"><span class="detail-label">${label}</span><span class="detail-value">${value}</span></div>`;
+    });
+
+    // CTA
+    const ctaArea = document.getElementById('cta-area');
+    if (p.type === 'rug' || !p.price) {
+      ctaArea.innerHTML = `
+        <div class="contact-cta">
+          <a href="index.html#contact" class="btn-primary" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none;">Enquire Now</a>
+          <button class="btn-secondary" onclick="showToast('Added to wishlist')">♡ Wishlist</button>
+        </div>`;
+    } else {
+      ctaArea.innerHTML = `
+        <div class="qty-row">
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(-1)">−</button>
+            <input class="qty-input" id="qty" type="number" value="1" min="1" max="10" />
+            <button class="qty-btn" onclick="changeQty(1)">+</button>
+          </div>
+          <button class="btn-primary" onclick="addToCart()">Add to Cart</button>
+          <button class="btn-secondary" onclick="showToast('Added to wishlist')">♡</button>
+        </div>`;
+    }
+
+    // Tab: Description
+    const tabDescContent = document.getElementById('tab-desc-content');
+    tabDescContent.innerHTML = `
+      <div>
+        <h3>About This Piece</h3>
+        <p>${p.longDesc}</p>
+      </div>
+      <div>
+        <h3>Key Features</h3>
+        <ul>${p.features.map(f => `<li>${f}</li>`).join('')}</ul>
+      </div>`;
+
+    // Tab: Reviews
+    const bigNum = document.getElementById('big-rating-num');
+    bigNum.textContent = p.rating.toFixed(1);
+    const bigStars = document.getElementById('big-rating-stars');
+    bigStars.replaceWith(renderStars(p.rating));
+    document.getElementById('big-rating-count').textContent = `Based on ${p.reviewCount} reviews`;
+
+    const barsEl = document.getElementById('rating-bars');
+    const labels = ['5 stars', '4 stars', '3 stars', '2 stars', '1 star'];
+    p.ratingBreakdown.forEach((count, i) => {
+      const pct = p.reviewCount ? Math.round(count / p.reviewCount * 100) : 0;
+      barsEl.innerHTML += `
+        <div class="bar-row">
+          <span style="min-width:52px">${labels[i]}</span>
+          <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
+          <span style="min-width:28px">${count}</span>
+        </div>`;
+    });
+
+    // Reviews list — use sample or load from localStorage
+    const storedReviews = JSON.parse(localStorage.getItem('fleekup_reviews_' + productId) || '[]');
+    const defaultReviews = SAMPLE_REVIEWS[productId] || [
+      { name: 'A. Verified Buyer', rating: 5, date: 'Recent', body: 'Incredible quality. Exactly as described — very happy with this purchase.' }
+    ];
+    const allReviews = [...defaultReviews, ...storedReviews];
+    const reviewsList = document.getElementById('reviews-list');
+    allReviews.forEach(r => {
+      reviewsList.innerHTML += `
+        <div class="review-card">
+          <div class="review-header">
+            <div>
+              <div class="reviewer-name">${r.name}</div>
+              <div class="stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</div>
+            </div>
+            <span class="review-date">${r.date}</span>
+          </div>
+          <p class="review-body">${r.body}</p>
+        </div>`;
+    });
+
+    // Related products
+    const related = Object.entries(PRODUCTS)
+      .filter(([id]) => id !== productId && PRODUCTS[id].type === p.type)
+      .slice(0, 4);
+    const relatedGrid = document.getElementById('related-grid');
+    (related.length ? related : Object.entries(PRODUCTS).filter(([id]) => id !== productId).slice(0, 4))
+      .forEach(([id, rp]) => {
+        const adminPrice = adminPrices[id] != null ? adminPrices[id] : rp.price;
+        relatedGrid.innerHTML += `
+          <div class="product-card" onclick="window.location='product.html?id=${id}'">
+            <img class="product-card-img" src="${rp.images[0]}" alt="${rp.name}" />
+            <div class="product-card-body">
+              <div class="product-card-name">${rp.name}</div>
+              <div class="product-card-price">${adminPrice ? formatPrice(adminPrice) : 'Contact for price'}</div>
+            </div>
+          </div>`;
+      });
+  }
+
+  // ── TABS ─────────────────────────────────────────────────────────────────
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  // ── STAR PICKER ──────────────────────────────────────────────────────────
+  let selectedRating = 0;
+  const picks = document.querySelectorAll('.star-pick');
+  picks.forEach(star => {
+    star.addEventListener('mouseover', () => {
+      picks.forEach(s => s.classList.toggle('active', s.dataset.val <= star.dataset.val));
+    });
+    star.addEventListener('mouseout', () => {
+      picks.forEach(s => s.classList.toggle('active', s.dataset.val <= selectedRating));
+    });
+    star.addEventListener('click', () => {
+      selectedRating = parseInt(star.dataset.val);
+      picks.forEach(s => s.classList.toggle('active', s.dataset.val <= selectedRating));
+    });
+  });
+
+  // ── REVIEW FORM ──────────────────────────────────────────────────────────
+  document.getElementById('review-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (!selectedRating) { showToast('Please select a star rating'); return; }
+    const name = document.getElementById('rev-name').value.trim();
+    const body = document.getElementById('rev-body').value.trim();
+    const review = { name, rating: selectedRating, date: new Date().toLocaleDateString('en-ZA', { month: 'long', year: 'numeric' }), body };
+    const key = 'fleekup_reviews_' + productId;
+    const existing = JSON.parse(localStorage.getItem(key) || '[]');
+    existing.push(review);
+    localStorage.setItem(key, JSON.stringify(existing));
+    showToast('Thank you for your review!');
+    this.reset();
+    selectedRating = 0;
+    picks.forEach(s => s.classList.remove('active'));
+    // Append to DOM
+    const reviewsList = document.getElementById('reviews-list');
+    reviewsList.innerHTML += `
+      <div class="review-card">
+        <div class="review-header">
+          <div>
+            <div class="reviewer-name">${review.name}</div>
+            <div class="stars">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</div>
+          </div>
+          <span class="review-date">${review.date}</span>
+        </div>
+        <p class="review-body">${review.body}</p>
+      </div>`;
+  });
+
+  // ── QTY + CART ───────────────────────────────────────────────────────────
+  function changeQty(delta) {
+    const input = document.getElementById('qty');
+    if (!input) return;
+    const newVal = Math.min(10, Math.max(1, parseInt(input.value) + delta));
+    input.value = newVal;
+  }
+
+  function addToCart() {
+    const qty = parseInt(document.getElementById('qty')?.value || 1);
+    showToast(`${qty}× ${p.name} added to cart`);
+  }
+</script>
+</body>
+</html>
