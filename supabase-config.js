@@ -8,5 +8,5 @@
 //    the live database.
 // ─────────────────────────────────────────────────────────────────────────────
 
-const SUPABASE_URL     = 'YOUR_SUPABASE_URL';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+const SUPABASE_URL     = 'https://yhiirotgtjylunwifknv.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_N97kF5EiE8ZCW2eg98lRDQ_CKxncweL';
