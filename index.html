@@ -1,0 +1,1731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fleek Up Home – On FLEEK</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold: #B85C38;
+      --gold-light: #CE7A57;
+      --gold-pale: #F0DDD5;
+      --black: #2B1A12;
+      --dark: #3A2416;
+      --dark-2: #EDE3D4;
+      --dark-3: #E5D8C5;
+      --mid: #7A5A47;
+      --text-muted: rgba(58,36,22,0.55);
+      --text-light: rgba(58,36,22,0.82);
+      --white: #ffffff;
+      --border: rgba(92,61,46,0.15);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #F7F0E6;
+      color: var(--dark);
+      font-size: 15px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ── ANNOUNCEMENT BAR ── */
+    .announcement-bar {
+      background-color: var(--gold);
+      color: var(--black);
+      text-align: center;
+      padding: 9px 20px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: rgba(247,240,230,0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 40px;
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .logo img {
+      height: 52px;
+      width: auto;
+      mix-blend-mode: multiply;
+    }
+
+    nav.main-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    nav.main-nav a {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      padding: 6px 14px;
+      border-radius: 3px;
+      transition: color 0.2s, background 0.2s;
+      position: relative;
+    }
+
+    nav.main-nav a:hover,
+    nav.main-nav a.active {
+      color: var(--gold);
+    }
+
+    nav.main-nav a.active::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 14px;
+      right: 14px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .header-actions button,
+    .header-actions a {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      transition: color 0.2s;
+      letter-spacing: 0.04em;
+    }
+
+    .header-actions button:hover,
+    .header-actions a:hover { color: var(--gold); }
+
+    .cart-btn {
+      background: var(--gold) !important;
+      color: var(--black) !important;
+      padding: 9px 20px !important;
+      border-radius: 2px !important;
+      font-weight: 600 !important;
+      letter-spacing: 0.08em !important;
+      text-transform: uppercase !important;
+      font-size: 12px !important;
+      transition: background 0.2s, transform 0.15s !important;
+    }
+
+    .cart-btn:hover {
+      background: var(--gold-light) !important;
+      transform: translateY(-1px);
+    }
+
+    .mobile-menu-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .mobile-menu-toggle span {
+      display: block;
+      width: 24px;
+      height: 1.5px;
+      background: var(--dark);
+      transition: all 0.3s;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      height: 92vh;
+      min-height: 580px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(160deg, rgba(10,10,10,0.05) 0%, rgba(10,10,10,0.55) 55%, rgba(10,10,10,0.92) 100%),
+        url('images/Ostrich%20Leather%20Backpack.jpeg') center/cover no-repeat;
+      transform: scale(1.04);
+      transition: transform 8s ease-out;
+    }
+
+    .hero:hover .hero-bg { transform: scale(1.0); }
+
+    .hero-content {
+      position: relative;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 40px 80px;
+      width: 100%;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(42px, 6vw, 82px);
+      font-weight: 700;
+      line-height: 1.08;
+      max-width: 680px;
+      margin-bottom: 24px;
+      color: var(--white);
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 300;
+      color: var(--text-light);
+      max-width: 480px;
+      margin-bottom: 40px;
+      line-height: 1.7;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--black);
+      padding: 14px 36px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-primary:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(184,92,56,0.3);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      padding: 13px 32px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 2px;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s, transform 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 80px;
+      right: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-muted);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .hero-scroll span { writing-mode: vertical-lr; }
+
+    .hero-scroll::after {
+      content: '';
+      width: 1px;
+      height: 50px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+
+    /* ── SECTION HEADER ── */
+    .section-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .section-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+
+    .section-eyebrow::before,
+    .section-eyebrow::after {
+      content: '';
+      display: block;
+      width: 30px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .section-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(30px, 4vw, 48px);
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--dark);
+      margin-bottom: 16px;
+    }
+
+    .section-header p {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.75;
+    }
+
+    /* ── CATEGORIES ── */
+    .categories-section {
+      padding: 90px 40px;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .categories-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 16px;
+      height: 580px;
+    }
+
+    .category-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .category-card:first-child { grid-row: span 2; }
+
+    .category-card-img {
+      width: 100%;
+      height: 100%;
+      min-height: unset;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+      background-color: var(--dark-3);
+    }
+
+    .category-card:hover .category-card-img { transform: scale(1.06); }
+
+    .category-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.12) 55%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 28px;
+      transition: background 0.3s;
+    }
+
+    .category-card:hover .category-card-overlay {
+      background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.22) 55%);
+    }
+
+    .category-tag {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    .category-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 14px;
+    }
+
+    .category-card:first-child .category-title { font-size: 30px; }
+
+    .category-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      transition: gap 0.2s;
+    }
+
+    .category-link:hover { gap: 14px; }
+
+    .category-link::after {
+      content: '→';
+      font-size: 13px;
+    }
+
+    /* ── PRODUCTS ── */
+    .products-section {
+      padding: 90px 40px;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .products-filter {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 8px 22px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(184,92,56,0.08);
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .product-card {
+      background: var(--dark-2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+
+    .product-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 48px rgba(92,61,46,0.18);
+    }
+
+    .product-img-wrap {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 3/4;
+      background: var(--dark-3);
+    }
+
+    .product-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .product-card:hover .product-img-wrap img {
+      transform: scale(1.07);
+    }
+
+    .product-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: var(--gold);
+      color: var(--black);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 2px;
+    }
+
+    .product-badge.new { background: var(--white); }
+    .product-badge.sale { background: #c0392b; color: var(--white); }
+
+    .product-actions {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 14px;
+      background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+      display: flex;
+      gap: 8px;
+    }
+
+    .product-card:hover .product-actions { transform: translateY(0); }
+
+    .product-actions button {
+      flex: 1;
+      background: var(--gold);
+      color: var(--black);
+      border: none;
+      padding: 10px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: background 0.2s;
+    }
+
+    .product-actions button:hover { background: var(--gold-light); }
+
+    .product-actions .wishlist-btn {
+      flex: 0;
+      background: rgba(255,255,255,0.12);
+      color: var(--white);
+      padding: 10px 14px;
+    }
+
+    .product-actions .wishlist-btn:hover { background: rgba(255,255,255,0.22); }
+
+    .product-info {
+      padding: 18px 18px 20px;
+    }
+
+    .product-category {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    .product-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 10px;
+      line-height: 1.35;
+    }
+
+    .product-price {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--gold);
+    }
+
+    .product-price .original {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: line-through;
+      margin-left: 8px;
+      font-weight: 400;
+    }
+
+    .product-rating {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .stars { color: var(--gold); font-size: 12px; letter-spacing: 1px; }
+    .rating-count { font-size: 11px; color: var(--text-muted); }
+
+    /* ── FEATURE BANNER ── */
+    .feature-banner {
+      position: relative;
+      overflow: hidden;
+      background-color: var(--black);
+    }
+
+    .feature-banner-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 560px;
+      align-items: center;
+    }
+
+    .feature-banner-content {
+      padding: 80px 60px 80px 0;
+    }
+
+    .feature-banner-content .section-eyebrow {
+      justify-content: flex-start;
+      margin-bottom: 18px;
+    }
+
+    .feature-banner-content .section-eyebrow::after { display: none; }
+
+    .feature-banner-content h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 3.5vw, 52px);
+      font-weight: 700;
+      line-height: 1.12;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+
+    .feature-banner-content h2 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .feature-banner-content p {
+      color: rgba(240,221,213,0.7);
+      font-size: 16px;
+      line-height: 1.75;
+      margin-bottom: 36px;
+      max-width: 420px;
+    }
+
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 36px;
+    }
+
+    .feature-list li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      color: rgba(240,221,213,0.82);
+    }
+
+    .feature-list li::before {
+      content: '';
+      display: block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .feature-banner-image {
+      position: relative;
+      height: 100%;
+      min-height: 560px;
+      overflow: hidden;
+      background: var(--dark-3);
+    }
+
+    .feature-banner-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .feature-banner-image::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 80px;
+      background: linear-gradient(to right, var(--black), transparent);
+      z-index: 1;
+    }
+
+    /* ── STATS ── */
+    .stats-section {
+      padding: 70px 40px;
+      background: var(--dark-2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stats-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      text-align: center;
+    }
+
+    .stat-item {
+      padding: 20px;
+      border-right: 1px solid var(--border);
+    }
+
+    .stat-item:last-child { border-right: none; }
+
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* ── BRAND STORY ── */
+    .brand-story {
+      padding: 100px 40px;
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .brand-story-image {
+      position: relative;
+    }
+
+    .brand-story-image img {
+      width: 100%;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      border-radius: 4px;
+      background: var(--dark-3);
+    }
+
+    .brand-story-image::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      right: -20px;
+      width: 60%;
+      height: 60%;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      z-index: -1;
+    }
+
+    .brand-story-content .section-eyebrow {
+      justify-content: flex-start;
+      margin-bottom: 20px;
+    }
+
+    .brand-story-content .section-eyebrow::after { display: none; }
+
+    .brand-story-content h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(30px, 3.2vw, 46px);
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--dark);
+      margin-bottom: 22px;
+    }
+
+    .brand-story-content p {
+      font-size: 16px;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 18px;
+    }
+
+    .brand-story-content blockquote {
+      border-left: 2px solid var(--gold);
+      padding-left: 22px;
+      margin: 28px 0;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-style: italic;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials-section {
+      padding: 90px 40px;
+      background: var(--dark-2);
+    }
+
+    .testimonials-grid {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 56px;
+    }
+
+    .testimonial-card {
+      background: var(--dark-3);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 36px 30px;
+      transition: border-color 0.3s;
+    }
+
+    .testimonial-card:hover { border-color: var(--gold); }
+
+    .testimonial-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-style: italic;
+      color: var(--text-light);
+      line-height: 1.75;
+      margin-bottom: 24px;
+    }
+
+    .testimonial-quote::before {
+      content: '"';
+      font-size: 48px;
+      line-height: 0.6;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 16px;
+      font-style: normal;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .author-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--mid);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--gold);
+    }
+
+    .author-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 2px;
+    }
+
+    .author-location {
+      font-size: 12px;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── NEWSLETTER ── */
+    .newsletter-section {
+      padding: 90px 40px;
+      max-width: 1280px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .newsletter-inner {
+      background: var(--black);
+      border: 1px solid rgba(92,61,46,0.3);
+      border-radius: 6px;
+      padding: 70px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .newsletter-inner::before {
+      content: '';
+      position: absolute;
+      top: -80px;
+      right: -80px;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(184,92,56,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .newsletter-inner::after {
+      content: '';
+      position: absolute;
+      bottom: -80px;
+      left: -80px;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(184,92,56,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .newsletter-inner h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 3vw, 42px);
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 14px;
+    }
+
+    .newsletter-inner p {
+      font-size: 16px;
+      color: rgba(240,221,213,0.7);
+      max-width: 480px;
+      margin: 0 auto 36px;
+      line-height: 1.75;
+    }
+
+    .newsletter-form {
+      display: flex;
+      gap: 10px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .newsletter-form input {
+      flex: 1;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(240,221,213,0.25);
+      color: var(--white);
+      padding: 14px 20px;
+      font-size: 14px;
+      border-radius: 2px;
+      outline: none;
+      transition: border-color 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .newsletter-form input::placeholder { color: rgba(240,221,213,0.45); }
+
+    .newsletter-form input:focus { border-color: var(--gold); }
+
+    .newsletter-form button {
+      background: var(--gold);
+      color: var(--black);
+      border: none;
+      padding: 14px 28px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      white-space: nowrap;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .newsletter-form button:hover {
+      background: var(--gold-light);
+      transform: translateY(-1px);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark);
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-main {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 80px 40px 60px;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+    }
+
+    .footer-brand img {
+      height: 48px;
+      width: auto;
+      margin-bottom: 20px;
+      filter: brightness(0) invert(1);
+    }
+
+    .footer-brand p {
+      font-size: 14px;
+      color: rgba(240,221,213,0.6);
+      line-height: 1.8;
+      max-width: 280px;
+      margin-bottom: 28px;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 12px;
+    }
+
+    .social-icon {
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(240,221,213,0.2);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(240,221,213,0.55);
+      font-size: 13px;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+      cursor: pointer;
+    }
+
+    .social-icon:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(184,92,56,0.1);
+    }
+
+    .footer-col h4 {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-col ul li a {
+      font-size: 14px;
+      color: rgba(240,221,213,0.6);
+      transition: color 0.2s;
+    }
+
+    .footer-col ul li a:hover { color: var(--gold); }
+
+    .footer-contact-item {
+      display: flex;
+      gap: 10px;
+      font-size: 14px;
+      color: rgba(240,221,213,0.6);
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+
+    .footer-contact-icon {
+      color: var(--gold);
+      font-size: 12px;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding: 22px 40px;
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .footer-copyright {
+      font-size: 13px;
+      color: rgba(240,221,213,0.4);
+    }
+
+    .footer-legal {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-legal a {
+      font-size: 13px;
+      color: rgba(240,221,213,0.4);
+      transition: color 0.2s;
+    }
+
+    .footer-legal a:hover { color: var(--gold); }
+
+    .footer-bottom { border-top: 1px solid rgba(240,221,213,0.1); }
+
+    /* ── MOBILE OVERLAY NAV ── */
+    .mobile-nav-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(43,26,18,0.98);
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 32px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .mobile-nav-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .mobile-nav-overlay a {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 600;
+      color: var(--white);
+      transition: color 0.2s;
+    }
+
+    .mobile-nav-overlay a:hover { color: var(--gold); }
+
+    .mobile-nav-close {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 24px;
+      cursor: pointer;
+      padding: 8px;
+      line-height: 1;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .products-grid { grid-template-columns: repeat(3, 1fr); }
+      .footer-main { grid-template-columns: 1fr 1fr; gap: 40px; }
+      .categories-grid { grid-template-columns: 1fr 1fr; height: 420px; }
+      .category-card:first-child { grid-row: span 2; }
+      .feature-banner-inner { grid-template-columns: 1fr; }
+      .feature-banner-image { min-height: 360px; }
+      .feature-banner-content { padding: 60px 0; }
+      .brand-story { grid-template-columns: 1fr; gap: 50px; }
+      .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+      .stats-inner { grid-template-columns: repeat(2, 1fr); }
+      .stat-item:nth-child(2) { border-right: none; }
+    }
+
+    @media (max-width: 768px) {
+      .header-inner { padding: 0 20px; }
+      nav.main-nav { display: none; }
+      .mobile-menu-toggle { display: flex; }
+      .header-actions .search-btn,
+      .header-actions .account-btn { display: none; }
+      .hero-content { padding: 0 20px 60px; }
+      .hero-scroll { display: none; }
+      .categories-section,
+      .products-section,
+      .newsletter-section { padding: 60px 20px; }
+      .products-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+      .brand-story { padding: 70px 20px; }
+      .newsletter-inner { padding: 50px 28px; }
+      .newsletter-form { flex-direction: column; }
+      .footer-main { grid-template-columns: 1fr; padding: 60px 20px 40px; gap: 36px; }
+      .footer-bottom { padding: 18px 20px; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .stats-inner { grid-template-columns: repeat(2, 1fr); }
+      .feature-banner-inner { padding: 0 20px; }
+      .testimonials-section { padding: 60px 20px; }
+      .stats-section { padding: 50px 20px; }
+    }
+
+    @media (max-width: 480px) {
+      .products-grid { grid-template-columns: 1fr; }
+      .categories-grid { grid-template-columns: 1fr; height: auto; }
+      .category-card:first-child { grid-row: auto; }
+      .hero-ctas { flex-direction: column; align-items: flex-start; }
+      .stats-inner { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="announcement-bar">
+  Free shipping on orders over R2,500 &nbsp;·&nbsp; Handcrafted in South Africa &nbsp;·&nbsp; 30-day returns
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo" aria-label="Fleek Up Home">
+      <img src="images/logo2.png" alt="Fleek Up Home" />
+    </a>
+
+    <nav class="main-nav" aria-label="Primary navigation">
+      <a href="#" class="active">Home</a>
+      <a href="#collections">Shop</a>
+      <a href="#bags">Bags</a>
+      <a href="#rugs">Rugs</a>
+      <a href="#about">Our Story</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="search-btn" aria-label="Search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        Search
+      </button>
+      <a href="#account" class="account-btn" aria-label="Account">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Account
+      </a>
+      <a href="#cart" class="cart-btn" aria-label="Cart">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        Cart (0)
+      </a>
+      <button class="mobile-menu-toggle" aria-label="Menu" onclick="document.querySelector('.mobile-nav-overlay').classList.toggle('open')">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav-overlay" role="dialog" aria-label="Mobile navigation">
+  <button class="mobile-nav-close" onclick="document.querySelector('.mobile-nav-overlay').classList.remove('open')" aria-label="Close menu">✕</button>
+  <a href="#" onclick="document.querySelector('.mobile-nav-overlay').classList.remove('open')">Home</a>
+  <a href="#collections" onclick="document.querySelector('.mobile-nav-overlay').classList.remove('open')">Shop</a>
+  <a href="#bags" onclick="document.querySelector('.mobile-nav-overlay').classList.remove('open')">Bags</a>
+  <a href="#rugs" onclick="document.querySelector('.mobile-nav-overlay').classList.remove('open')">Rugs</a>
+  <a href="#about" onclick="document.querySelector('.mobile-nav-overlay').classList.remove('open')">Our Story</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" aria-label="Hero">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">New Collection 2025</p>
+    <h1>Crafted to be<br /><em>On FLEEK</em></h1>
+    <p>Exceptional handcrafted ostrich leather bags and premium animal hide rugs. Luxury made in South Africa.</p>
+    <div class="hero-ctas">
+      <a href="#collections" class="btn-primary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        Shop the Collection
+      </a>
+      <a href="#about" class="btn-outline">Our Story</a>
+    </div>
+  </div>
+  <div class="hero-scroll" aria-hidden="true">
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="categories-section" id="collections" aria-label="Collections">
+  <div class="section-header">
+    <p class="section-eyebrow">Collections</p>
+    <h2>Shop by Category</h2>
+    <p>From handcrafted leather bags to statement animal hide rugs — every piece is made to last.</p>
+  </div>
+
+  <div class="categories-grid">
+    <div class="category-card">
+      <img class="category-card-img"
+        src="images/Ostrich%20Leather%20Bag.jpeg"
+        alt="Handcrafted Leather Bags" loading="lazy" />
+      <div class="category-card-overlay">
+        <span class="category-tag">Most Popular</span>
+        <h3 class="category-title">Handcrafted<br />Leather Bags</h3>
+        <a href="#bags" class="category-link">Explore bags</a>
+      </div>
+    </div>
+
+    <div class="category-card">
+      <img class="category-card-img"
+        src="images/Eland-Rug.png"
+        alt="Animal Hide Rugs" loading="lazy" />
+      <div class="category-card-overlay">
+        <span class="category-tag">Exclusive</span>
+        <h3 class="category-title">Animal Hide Rugs</h3>
+        <a href="#rugs" class="category-link">View rugs</a>
+      </div>
+    </div>
+
+    <div class="category-card">
+      <img class="category-card-img"
+        src="images/Ladies%20Ostrich%20Bag.jpeg"
+        alt="Ladies Ostrich Bags" loading="lazy" />
+      <div class="category-card-overlay">
+        <span class="category-tag">New In</span>
+        <h3 class="category-title">Ladies Collection</h3>
+        <a href="#bags" class="category-link">Discover more</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS: BAGS -->
+<section class="products-section" id="bags" aria-label="Bags products">
+  <div class="section-header">
+    <p class="section-eyebrow">Handcrafted Bags</p>
+    <h2>Explore Our Bags</h2>
+    <p>Each bag is individually crafted from premium South African ostrich leather — unique markings guaranteed.</p>
+  </div>
+
+  <div class="products-filter" role="group" aria-label="Filter products">
+    <button class="filter-btn active" onclick="setFilter(this)">All</button>
+    <button class="filter-btn" onclick="setFilter(this)">Backpacks</button>
+    <button class="filter-btn" onclick="setFilter(this)">Laptop Bags</button>
+    <button class="filter-btn" onclick="setFilter(this)">Ladies</button>
+  </div>
+
+  <div class="products-grid">
+    <!-- Product 1 -->
+    <article class="product-card" aria-label="Handcrafted Ostrich Leather Backpack">
+      <div class="product-img-wrap">
+        <img src="images/Ostrich%20Leather%20Backpack.jpeg" alt="Handcrafted Ostrich Leather Backpack" loading="lazy" />
+        <span class="product-badge">Bestseller</span>
+        <div class="product-actions">
+          <button onclick="alert('Added to cart!')">Add to Cart</button>
+          <button class="wishlist-btn" aria-label="Add to wishlist">♡</button>
+        </div>
+      </div>
+      <div class="product-info">
+        <p class="product-category">Backpacks</p>
+        <h3 class="product-name">Handcrafted Ostrich Leather Backpack</h3>
+        <p class="product-price">R 7,000.00</p>
+        <div class="product-rating">
+          <span class="stars">★★★★★</span>
+          <span class="rating-count">(12)</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Product 2 -->
+    <article class="product-card" aria-label="Ostrich Leather Laptop Bag – Tan">
+      <div class="product-img-wrap">
+        <img src="images/Ostrich%20Bag.jpeg" alt="Ostrich Leather Laptop Bag in Tan" loading="lazy" />
+        <div class="product-actions">
+          <button onclick="alert('Added to cart!')">Add to Cart</button>
+          <button class="wishlist-btn" aria-label="Add to wishlist">♡</button>
+        </div>
+      </div>
+      <div class="product-info">
+        <p class="product-category">Laptop Bags</p>
+        <h3 class="product-name">Ostrich Leather Laptop Bag – Tan</h3>
+        <p class="product-price">R 7,000.00</p>
+        <div class="product-rating">
+          <span class="stars">★★★★★</span>
+          <span class="rating-count">(8)</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Product 3 -->
+    <article class="product-card" aria-label="Eva – Ladies Handcrafted Ostrich Clutch">
+      <div class="product-img-wrap">
+        <img src="images/Ladies%20Ostrich%20Bag.jpeg" alt="Eva Ladies Ostrich Leather Clutch" loading="lazy" />
+        <span class="product-badge new" style="background:#fff;color:#111;">New</span>
+        <div class="product-actions">
+          <button onclick="alert('Added to cart!')">Add to Cart</button>
+          <button class="wishlist-btn" aria-label="Add to wishlist">♡</button>
+        </div>
+      </div>
+      <div class="product-info">
+        <p class="product-category">Ladies</p>
+        <h3 class="product-name">Eva – Ladies Handcrafted Ostrich Clutch</h3>
+        <p class="product-price">R 3,500.00</p>
+        <div class="product-rating">
+          <span class="stars">★★★★★</span>
+          <span class="rating-count">(19)</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Product 4 -->
+    <article class="product-card" aria-label="Ostrich Leather Laptop Bag – Navy">
+      <div class="product-img-wrap">
+        <img src="images/Ostrich%20Leather%20Bag.jpeg" alt="Ostrich Leather Laptop Bag in Navy" loading="lazy" />
+        <div class="product-actions">
+          <button onclick="alert('Added to cart!')">Add to Cart</button>
+          <button class="wishlist-btn" aria-label="Add to wishlist">♡</button>
+        </div>
+      </div>
+      <div class="product-info">
+        <p class="product-category">Laptop Bags</p>
+        <h3 class="product-name">Ostrich Leather Laptop Bag – Navy</h3>
+        <p class="product-price">R 7,000.00</p>
+        <div class="product-rating">
+          <span class="stars">★★★★★</span>
+          <span class="rating-count">(6)</span>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <div style="text-align:center;margin-top:52px;">
+    <a href="#" class="btn-outline">View All Bags</a>
+  </div>
+</section>
+
+<!-- FEATURE BANNER -->
+<div class="feature-banner" aria-label="Feature highlight">
+  <div class="feature-banner-inner">
+    <div class="feature-banner-content">
+      <p class="section-eyebrow">Why Choose Us</p>
+      <h2>Quality that stays<br /><em>On FLEEK</em></h2>
+      <p>Every piece is individually crafted by skilled South African artisans using only the finest locally sourced materials. No two products are ever the same.</p>
+      <ul class="feature-list">
+        <li>Premium South African ostrich & hide leather</li>
+        <li>Hand-stitched by master craftspeople</li>
+        <li>Unique natural grain patterns on every piece</li>
+        <li>Lifetime craftsmanship guarantee</li>
+        <li>Ethically and sustainably sourced</li>
+      </ul>
+      <a href="#about" class="btn-primary">Read Our Story</a>
+    </div>
+    <div class="feature-banner-image">
+      <img src="images/Ostrich%20Bag.jpeg" alt="Handcrafted ostrich leather laptop bag" loading="lazy" />
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCTS: RUGS -->
+<section class="products-section" id="rugs" aria-label="Rugs products">
+  <div class="section-header">
+    <p class="section-eyebrow">Exclusive Collection</p>
+    <h2>Handcrafted Animal Hide Rugs</h2>
+    <p>Statement pieces for the discerning home. Each rug is one-of-a-kind, sourced and processed in South Africa.</p>
+  </div>
+
+  <div class="products-grid" style="grid-template-columns: repeat(2, 1fr); max-width: 860px; margin: 0 auto;">
+    <article class="product-card" aria-label="Black Wildebeest Rug">
+      <div class="product-img-wrap">
+        <img src="images/black-wildebeest-rug.png" alt="Black Wildebeest Hide Rug" loading="lazy" />
+        <span class="product-badge">Limited</span>
+        <div class="product-actions">
+          <button onclick="alert('Enquiry sent!')">Enquire Now</button>
+          <button class="wishlist-btn" aria-label="Add to wishlist">♡</button>
+        </div>
+      </div>
+      <div class="product-info">
+        <p class="product-category">Animal Hide Rugs</p>
+        <h3 class="product-name">Black Wildebeest Hide Rug</h3>
+        <p class="product-price">Contact for price</p>
+        <div class="product-rating">
+          <span class="stars">★★★★★</span>
+          <span class="rating-count">(3)</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="product-card" aria-label="Eland Hide Rug">
+      <div class="product-img-wrap">
+        <img src="images/Eland-Rug.png" alt="Eland Hide Rug" loading="lazy" />
+        <span class="product-badge new" style="background:#fff;color:#111;">New</span>
+        <div class="product-actions">
+          <button onclick="alert('Enquiry sent!')">Enquire Now</button>
+          <button class="wishlist-btn" aria-label="Add to wishlist">♡</button>
+        </div>
+      </div>
+      <div class="product-info">
+        <p class="product-category">Animal Hide Rugs</p>
+        <h3 class="product-name">Eland Hide Rug</h3>
+        <p class="product-price">Contact for price</p>
+        <div class="product-rating">
+          <span class="stars">★★★★★</span>
+          <span class="rating-count">(5)</span>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-section" aria-label="Brand statistics">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="stat-number">500+</div>
+      <div class="stat-label">Happy Customers</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">100%</div>
+      <div class="stat-label">Handcrafted</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">SA</div>
+      <div class="stat-label">Made in South Africa</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">∞</div>
+      <div class="stat-label">Craftsmanship Guarantee</div>
+    </div>
+  </div>
+</div>
+
+<!-- BRAND STORY -->
+<section class="brand-story" id="about" aria-label="Brand story">
+  <div class="brand-story-image">
+    <img src="images/Ostrich%20Leather%20Bag.jpeg" alt="Handcrafted ostrich leather bag with South African Protea flowers" loading="lazy" />
+  </div>
+  <div class="brand-story-content">
+    <p class="section-eyebrow">Our Story</p>
+    <h2>On FLEEK means<br />absolutely perfect</h2>
+    <p>The Urban Dictionary defines "On FLEEK" as extremely good, attractive, or stylish — and that's exactly the standard we hold ourselves to with every single piece we create.</p>
+    <blockquote>"We believe luxury shouldn't be imported. South Africa's finest materials, crafted by South African hands."</blockquote>
+    <p>From our workshop, each ostrich leather bag and animal hide rug is individually made, inspected, and sent out to homes across South Africa and beyond. No shortcuts. No compromises.</p>
+    <a href="#" class="btn-primary" style="margin-top:8px;">Meet the Artisans</a>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section" aria-label="Customer testimonials">
+  <div style="max-width:1280px;margin:0 auto;">
+    <div class="section-header">
+      <p class="section-eyebrow">Testimonials</p>
+      <h2>What Our Customers Say</h2>
+    </div>
+  </div>
+
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <p class="testimonial-quote">The backpack is absolutely stunning. The ostrich leather is butter-soft and the craftsmanship is impeccable. I get compliments everywhere I go.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">T</div>
+        <div>
+          <p class="author-name">Thandi M.</p>
+          <p class="author-location">Johannesburg, SA</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-card">
+      <p class="testimonial-quote">Ordered the Black Wildebeest Rug for my lounge and it transformed the entire room. Truly a statement piece. Delivery was fast and it arrived perfectly packed.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">R</div>
+        <div>
+          <p class="author-name">Riaan V.</p>
+          <p class="author-location">Cape Town, SA</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-card">
+      <p class="testimonial-quote">Gifted the Eva bag to my wife and she hasn't stopped using it since. The quality far exceeded expectations. This is heirloom-level craftsmanship.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">L</div>
+        <div>
+          <p class="author-name">Lebo S.</p>
+          <p class="author-location">Pretoria, SA</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter-section" aria-label="Newsletter signup">
+  <div class="newsletter-inner">
+    <p class="section-eyebrow" style="justify-content:center;">Stay in the Loop</p>
+    <h2>Join the FLEEK Community</h2>
+    <p>Stay in the loop with new arrivals, home styling ideas, and exclusive discounts — straight to your inbox.</p>
+    <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+      <input type="email" placeholder="Your email address" required aria-label="Email address" />
+      <button type="submit">Subscribe</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-main">
+    <div class="footer-brand">
+      <img src="images/logo2.png" alt="Fleek Up Home" />
+      <p>Handcrafted luxury leather goods and animal hide rugs, made with pride in South Africa. Every piece is on FLEEK.</p>
+      <div class="footer-social" aria-label="Social links">
+        <a href="#" class="social-icon" aria-label="Instagram">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a href="#" class="social-icon" aria-label="Facebook">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <a href="#" class="social-icon" aria-label="Pinterest">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.65 7.86 6.39 9.29-.09-.78-.17-1.98.03-2.83.19-.77 1.27-5.39 1.27-5.39s-.32-.65-.32-1.6c0-1.5.87-2.62 1.95-2.62.92 0 1.36.69 1.36 1.52 0 .93-.59 2.32-.9 3.6-.26 1.08.54 1.96 1.6 1.96 1.92 0 3.2-2.47 3.2-5.39 0-2.22-1.49-3.88-4.19-3.88-3.05 0-4.94 2.28-4.94 4.83 0 .88.26 1.5.67 1.98.19.23.21.32.15.57-.05.18-.16.63-.21.8-.07.27-.28.37-.52.27-1.47-.6-2.16-2.22-2.16-4.02 0-2.98 2.52-6.57 7.54-6.57 4.03 0 6.67 2.93 6.67 6.07 0 4.16-2.31 7.28-5.72 7.28-1.14 0-2.22-.62-2.59-1.32l-.72 2.79c-.26.99-.96 2.23-1.43 2.99.93.28 1.93.43 2.95.43 5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>
+        </a>
+        <a href="#" class="social-icon" aria-label="WhatsApp">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="#bags">Leather Bags</a></li>
+        <li><a href="#rugs">Animal Hide Rugs</a></li>
+        <li><a href="#bags">Joy Collection</a></li>
+        <li><a href="#">New Arrivals</a></li>
+        <li><a href="#">Sale</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Help</h4>
+      <ul>
+        <li><a href="#">Shipping Info</a></li>
+        <li><a href="#">Returns & Exchanges</a></li>
+        <li><a href="#">Product Care</a></li>
+        <li><a href="#">Size Guide</a></li>
+        <li><a href="#">FAQ</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <div class="footer-contact-item">
+        <span class="footer-contact-icon">✉</span>
+        <span>info@fleekuphome.co.za</span>
+      </div>
+      <div class="footer-contact-item">
+        <span class="footer-contact-icon">◎</span>
+        <span>South Africa</span>
+      </div>
+      <div class="footer-contact-item">
+        <span class="footer-contact-icon">◷</span>
+        <span>Mon – Fri: 9am – 5pm</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p class="footer-copyright">© 2025 Fleek Up Home. All rights reserved.</p>
+    <nav class="footer-legal" aria-label="Legal links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Cookie Policy</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+  function setFilter(btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  function handleNewsletter(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button');
+    const input = e.target.querySelector('input');
+    btn.textContent = 'Subscribed ✓';
+    btn.style.background = '#2ecc71';
+    input.value = '';
+    setTimeout(() => {
+      btn.textContent = 'Subscribe';
+      btn.style.background = '';
+    }, 3000);
+  }
+
+  // Smooth sticky header shadow
+  window.addEventListener('scroll', () => {
+    const header = document.querySelector('header');
+    header.style.boxShadow = window.scrollY > 20 ? '0 4px 24px rgba(92,61,46,0.15)' : '';
+  });
+</script>
+
+</body>
+</html>
