@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Confirmed — Fleek Up Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="supabase-config.js"></script>
+  <script src="cart.js"></script>
+  <style>
+    :root {
+      --gold: #B85C38; --gold-light: #CE7A57; --gold-pale: #F0DDD5;
+      --black: #2B1A12; --dark: #3A2416; --dark-2: #EDE3D4; --dark-3: #E5D8C5;
+      --mid: #7A5A47; --text-muted: rgba(58,36,22,0.55); --text-light: rgba(58,36,22,0.82);
+      --border: rgba(92,61,46,0.15);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #F7F0E6; color: var(--dark); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+
+    header { background: rgba(247,240,230,.96); border-bottom: 1px solid var(--border); }
+    .header-inner { max-width: 1280px; margin: 0 auto; padding: 0 32px; height: 72px; display: flex; align-items: center; }
+    .logo img { height: 52px; mix-blend-mode: multiply; }
+
+    main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 60px 32px; }
+
+    .success-card {
+      background: #fff; border-radius: 8px; border: 1px solid var(--border);
+      padding: 56px 48px; max-width: 600px; width: 100%; text-align: center;
+    }
+
+    .check-circle {
+      width: 80px; height: 80px; background: rgba(58,125,68,.1);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 28px;
+    }
+    .check-circle svg { color: #3a7d44; }
+
+    .success-card h1 {
+      font-family: 'Playfair Display', serif; font-size: clamp(26px,3vw,36px);
+      font-weight: 600; margin-bottom: 14px;
+    }
+    .success-card .subtitle {
+      font-family: 'Cormorant Garamond', serif; font-size: 19px;
+      color: var(--text-light); margin-bottom: 36px; line-height: 1.7;
+    }
+
+    .order-meta {
+      background: var(--dark-2); border-radius: 6px; padding: 20px 24px;
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 32px; gap: 16px; flex-wrap: wrap;
+    }
+    .order-meta-item { text-align: left; }
+    .order-meta-label { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
+    .order-meta-value { font-size: 15px; font-weight: 600; color: var(--dark); }
+
+    .order-items { text-align: left; margin-bottom: 32px; }
+    .order-items h3 { font-size: 14px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px; }
+    .order-item-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .order-item-row:last-child { border-bottom: none; }
+    .order-item-img { width: 48px; height: 48px; object-fit: cover; border-radius: 3px; flex-shrink: 0; background: var(--dark-3); }
+    .order-item-name { font-size: 14px; font-weight: 500; color: var(--dark); flex: 1; }
+    .order-item-qty  { font-size: 13px; color: var(--text-muted); }
+    .order-item-price { font-size: 14px; font-weight: 600; color: var(--dark); }
+
+    .actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary { padding: 14px 32px; background: var(--gold); color: #fff; border: none; border-radius: 4px; font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; text-decoration: none; transition: background .2s; }
+    .btn-primary:hover { background: var(--gold-light); }
+    .btn-ghost { padding: 13px 28px; background: none; color: var(--dark); border: 1px solid var(--border); border-radius: 4px; font-size: 13px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; text-decoration: none; transition: border-color .2s; }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+    footer { background: var(--black); color: rgba(240,221,213,.6); padding: 24px 32px; text-align: center; font-size: 13px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="logo"><img src="images/logo2.png" alt="Fleek Up Home" /></a>
+  </div>
+</header>
+
+<main>
+  <div class="success-card">
+    <div class="check-circle">
+      <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+
+    <h1>Thank You for Your Order!</h1>
+    <p class="subtitle">Your payment has been received. Our team will be in touch shortly to confirm your order and arrange delivery.</p>
+
+    <div class="order-meta">
+      <div class="order-meta-item">
+        <div class="order-meta-label">Order Reference</div>
+        <div class="order-meta-value" id="order-id">—</div>
+      </div>
+      <div class="order-meta-item">
+        <div class="order-meta-label">Order Total</div>
+        <div class="order-meta-value" id="order-total">—</div>
+      </div>
+      <div class="order-meta-item">
+        <div class="order-meta-label">Status</div>
+        <div class="order-meta-value" style="color:#3a7d44">Payment Received</div>
+      </div>
+    </div>
+
+    <div class="order-items" id="order-items-wrap" style="display:none">
+      <h3>Items Ordered</h3>
+      <div id="order-items-list"></div>
+    </div>
+
+    <div class="actions">
+      <a href="index.html" class="btn-primary">Continue Shopping</a>
+      <a href="index.html#contact" class="btn-ghost">Contact Us</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <p>© 2025 Fleek Up Home. All rights reserved.</p>
+</footer>
+
+<script>
+(async function () {
+  const params  = new URLSearchParams(window.location.search);
+  const orderId = params.get('order_id') || params.get('m_payment_id') || '—';
+
+  document.getElementById('order-id').textContent = orderId;
+
+  // Mark order as paid in Supabase if configured
+  if (typeof SUPABASE_URL !== 'undefined' && !SUPABASE_URL.includes('YOUR_') && orderId !== '—') {
+    try {
+      const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      await sb.from('customer_orders')
+        .update({ status: 'paid', payfast_payment_id: params.get('pf_payment_id') || null })
+        .eq('id', orderId);
+    } catch (e) {
+      console.warn('Could not update order status:', e.message);
+    }
+  }
+
+  // Show items from cart (before clearing)
+  const savedCart = Cart.get();
+  if (savedCart.length) {
+    const total = Cart.total();
+    document.getElementById('order-total').textContent = 'R ' + total.toLocaleString('en-ZA');
+
+    const list = document.getElementById('order-items-list');
+    savedCart.forEach(item => {
+      list.innerHTML += `
+        <div class="order-item-row">
+          <img class="order-item-img" src="${item.image}" alt="${item.name}" onerror="this.style.display='none'" />
+          <span class="order-item-name">${item.name}</span>
+          <span class="order-item-qty">× ${item.quantity}</span>
+          <span class="order-item-price">R ${(item.price * item.quantity).toLocaleString('en-ZA')}</span>
+        </div>`;
+    });
+    document.getElementById('order-items-wrap').style.display = 'block';
+
+    // Clear the cart now that order is confirmed
+    Cart.clear();
+  }
+})();
+</script>
+</body>
+</html>

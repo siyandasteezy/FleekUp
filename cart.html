@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cart — Fleek Up Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <script src="cart.js"></script>
+  <style>
+    :root {
+      --gold: #B85C38; --gold-light: #CE7A57; --gold-pale: #F0DDD5;
+      --black: #2B1A12; --dark: #3A2416; --dark-2: #EDE3D4; --dark-3: #E5D8C5;
+      --mid: #7A5A47; --text-muted: rgba(58,36,22,0.55); --text-light: rgba(58,36,22,0.82);
+      --white: #ffffff; --border: rgba(92,61,46,0.15);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #F7F0E6; color: var(--dark); line-height: 1.6; }
+
+    /* ── HEADER ── */
+    header { position: sticky; top: 0; z-index: 100; background: rgba(247,240,230,.96); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+    .header-inner { max-width: 1280px; margin: 0 auto; padding: 0 32px; height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .logo img { height: 52px; width: auto; mix-blend-mode: multiply; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { font-size: 13px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; color: var(--dark); opacity: .75; transition: opacity .2s; }
+    .nav-links a:hover { opacity: 1; }
+    .header-actions { display: flex; gap: 16px; align-items: center; }
+    .icon-btn { background: none; border: none; cursor: pointer; color: var(--dark); opacity: .75; transition: opacity .2s; padding: 4px; position: relative; display: inline-flex; text-decoration: none; }
+    .icon-btn:hover { opacity: 1; }
+    .cart-count { position: absolute; top: -5px; right: -5px; background: var(--gold); color: #fff; border-radius: 50%; min-width: 18px; height: 18px; font-size: 10px; font-weight: 700; display: none; align-items: center; justify-content: center; line-height: 1; padding: 0 3px; }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb { max-width: 1280px; margin: 0 auto; padding: 18px 32px 0; display: flex; gap: 8px; align-items: center; font-size: 13px; color: var(--text-muted); }
+    .breadcrumb a { color: var(--text-muted); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--gold); }
+
+    /* ── MAIN ── */
+    .cart-page { max-width: 1280px; margin: 0 auto; padding: 40px 32px 100px; }
+    .cart-page h1 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 3vw, 40px); font-weight: 600; margin-bottom: 40px; }
+
+    .cart-layout { display: grid; grid-template-columns: 1fr 360px; gap: 48px; align-items: start; }
+
+    /* ── ITEMS TABLE ── */
+    .cart-items { background: #fff; border-radius: 6px; border: 1px solid var(--border); overflow: hidden; }
+    .cart-items-header { padding: 16px 24px; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 1fr auto auto auto; gap: 16px; align-items: center; }
+    .cart-items-header span { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--text-muted); }
+    .cart-items-header .col-price,
+    .cart-items-header .col-qty,
+    .cart-items-header .col-total { text-align: right; }
+    .cart-items-header .col-qty { text-align: center; min-width: 100px; }
+    .cart-items-header .col-price,
+    .cart-items-header .col-total { min-width: 80px; }
+
+    .cart-row { display: grid; grid-template-columns: 1fr auto auto auto; gap: 16px; align-items: center; padding: 20px 24px; border-bottom: 1px solid var(--border); }
+    .cart-row:last-child { border-bottom: none; }
+
+    .cart-item-info { display: flex; align-items: center; gap: 16px; }
+    .cart-item-img { width: 80px; height: 80px; object-fit: cover; border-radius: 4px; flex-shrink: 0; background: var(--dark-3); }
+    .cart-item-name { font-weight: 600; font-size: 15px; color: var(--dark); margin-bottom: 4px; }
+    .cart-item-remove { font-size: 13px; color: var(--text-muted); background: none; border: none; cursor: pointer; padding: 0; text-decoration: underline; transition: color .2s; }
+    .cart-item-remove:hover { color: #c0392b; }
+
+    .cart-item-price { font-size: 15px; color: var(--text-light); text-align: right; min-width: 80px; }
+
+    /* Qty stepper */
+    .qty-stepper { display: flex; align-items: center; border: 1px solid var(--border); border-radius: 4px; overflow: hidden; min-width: 100px; justify-content: center; }
+    .qty-stepper button { width: 32px; height: 36px; background: none; border: none; font-size: 18px; cursor: pointer; color: var(--dark); transition: background .15s; flex-shrink: 0; }
+    .qty-stepper button:hover { background: var(--dark-3); }
+    .qty-stepper input { width: 40px; height: 36px; border: none; border-left: 1px solid var(--border); border-right: 1px solid var(--border); text-align: center; font-size: 14px; font-family: 'Inter', sans-serif; color: var(--dark); background: #fff; }
+    .qty-stepper input:focus { outline: none; }
+
+    .cart-item-total { font-size: 15px; font-weight: 600; color: var(--dark); text-align: right; min-width: 80px; }
+
+    /* Empty state */
+    .cart-empty { text-align: center; padding: 80px 32px; }
+    .cart-empty svg { margin-bottom: 24px; color: var(--text-muted); }
+    .cart-empty h2 { font-family: 'Playfair Display', serif; font-size: 28px; margin-bottom: 12px; }
+    .cart-empty p { font-size: 16px; color: var(--text-muted); margin-bottom: 32px; }
+
+    /* ── ORDER SUMMARY ── */
+    .order-summary { background: #fff; border-radius: 6px; border: 1px solid var(--border); padding: 28px; position: sticky; top: 100px; }
+    .order-summary h2 { font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 24px; }
+    .summary-row { display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: var(--text-light); margin-bottom: 14px; }
+    .summary-row.total { font-size: 18px; font-weight: 700; color: var(--dark); border-top: 1px solid var(--border); padding-top: 16px; margin-top: 4px; }
+    .summary-row.total span:last-child { font-family: 'Playfair Display', serif; }
+    .summary-note { font-size: 12px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6; }
+
+    .btn-checkout { display: block; width: 100%; padding: 16px; background: var(--gold); color: #fff; border: none; border-radius: 4px; font-size: 14px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; text-align: center; text-decoration: none; transition: background .2s; margin-bottom: 12px; }
+    .btn-checkout:hover { background: var(--gold-light); }
+    .btn-continue { display: block; width: 100%; padding: 14px; background: transparent; color: var(--dark); border: 1px solid var(--border); border-radius: 4px; font-size: 13px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; cursor: pointer; text-align: center; text-decoration: none; transition: border-color .2s; }
+    .btn-continue:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── FOOTER ── */
+    footer { background: var(--black); color: rgba(240,221,213,.7); padding: 40px 32px; text-align: center; font-size: 13px; }
+    footer a { color: rgba(240,221,213,.5); text-decoration: none; }
+
+    @media (max-width: 900px) {
+      .cart-layout { grid-template-columns: 1fr; }
+      .order-summary { position: static; }
+      .cart-items-header { display: none; }
+      .cart-row { grid-template-columns: 1fr; gap: 12px; }
+      .cart-item-price, .cart-item-total { text-align: left; }
+    }
+    @media (max-width: 600px) {
+      .header-inner { padding: 0 16px; }
+      .nav-links { display: none; }
+      .cart-page { padding: 24px 16px 80px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="logo"><img src="images/logo2.png" alt="Fleek Up Home" /></a>
+    <nav><ul class="nav-links">
+      <li><a href="index.html#bags">Bags</a></li>
+      <li><a href="index.html#rugs">Rugs</a></li>
+      <li><a href="index.html#about">Our Story</a></li>
+    </ul></nav>
+    <div class="header-actions">
+      <a href="cart.html" class="icon-btn" title="Cart">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="cart-count">0</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<nav class="breadcrumb">
+  <a href="index.html">Home</a><span>›</span><span>Cart</span>
+</nav>
+
+<main class="cart-page">
+  <h1>Your Cart</h1>
+  <div id="cart-content"></div>
+</main>
+
+<footer>
+  <p>© 2025 Fleek Up Home &nbsp;·&nbsp; <a href="index.html">Continue Shopping</a></p>
+</footer>
+
+<script>
+function renderCart() {
+  const cart    = Cart.get();
+  const content = document.getElementById('cart-content');
+
+  if (!cart.length) {
+    content.innerHTML = `
+      <div class="cart-empty">
+        <svg width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <h2>Your cart is empty</h2>
+        <p>Looks like you haven't added anything yet.</p>
+        <a href="index.html" class="btn-checkout" style="display:inline-block;width:auto;padding:14px 32px">Continue Shopping</a>
+      </div>`;
+    return;
+  }
+
+  const subtotal = Cart.total();
+  const itemWord = Cart.count() === 1 ? 'item' : 'items';
+
+  content.innerHTML = `
+    <div class="cart-layout">
+      <div>
+        <div class="cart-items">
+          <div class="cart-items-header">
+            <span>Product</span>
+            <span class="col-price">Price</span>
+            <span class="col-qty">Qty</span>
+            <span class="col-total">Total</span>
+          </div>
+          <div id="items-list"></div>
+        </div>
+      </div>
+
+      <aside class="order-summary">
+        <h2>Order Summary</h2>
+        <div class="summary-row"><span>${Cart.count()} ${itemWord}</span><span>R ${subtotal.toLocaleString('en-ZA')}</span></div>
+        <div class="summary-row"><span>Shipping</span><span style="color:var(--text-muted)">Calculated at checkout</span></div>
+        <div class="summary-row total"><span>Total</span><span>R ${subtotal.toLocaleString('en-ZA')}</span></div>
+        <p class="summary-note">Shipping within South Africa. International orders — please <a href="index.html#contact" style="color:var(--gold)">contact us</a> for a quote.</p>
+        <a href="checkout.html" class="btn-checkout">Proceed to Checkout</a>
+        <a href="index.html" class="btn-continue">Continue Shopping</a>
+      </aside>
+    </div>`;
+
+  const list = document.getElementById('items-list');
+  cart.forEach(item => {
+    const row = document.createElement('div');
+    row.className = 'cart-row';
+    row.id = 'row-' + item.id;
+    row.innerHTML = `
+      <div class="cart-item-info">
+        <img class="cart-item-img" src="${item.image}" alt="${item.name}" onerror="this.style.display='none'" />
+        <div>
+          <div class="cart-item-name">${item.name}</div>
+          <button class="cart-item-remove" onclick="removeItem('${item.id}')">Remove</button>
+        </div>
+      </div>
+      <div class="cart-item-price">R ${Number(item.price).toLocaleString('en-ZA')}</div>
+      <div class="qty-stepper">
+        <button onclick="changeQty('${item.id}', ${item.quantity - 1})">−</button>
+        <input type="number" value="${item.quantity}" min="1" max="10"
+          onchange="changeQty('${item.id}', parseInt(this.value))"
+          oninput="changeQty('${item.id}', parseInt(this.value))" />
+        <button onclick="changeQty('${item.id}', ${item.quantity + 1})">+</button>
+      </div>
+      <div class="cart-item-total">R ${(item.price * item.quantity).toLocaleString('en-ZA')}</div>`;
+    list.appendChild(row);
+  });
+}
+
+function removeItem(id) {
+  Cart.remove(id);
+  renderCart();
+}
+
+function changeQty(id, qty) {
+  Cart.setQty(id, qty);
+  renderCart();
+}
+
+renderCart();
+</script>
+</body>
+</html>

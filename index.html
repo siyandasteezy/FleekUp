@@ -1273,9 +1273,9 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         Account
       </a>
-      <a href="#cart" class="cart-btn" aria-label="Cart">
+      <a href="cart.html" class="cart-btn" aria-label="Cart" style="position:relative">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-        Cart (0)
+        Cart (<span class="cart-count-text">0</span>)
       </a>
       <button class="mobile-menu-toggle" aria-label="Menu" onclick="document.querySelector('.mobile-nav-overlay').classList.toggle('open')">
         <span></span><span></span><span></span>
@@ -1380,7 +1380,7 @@
         <img src="images/Ostrich%20Leather%20Backpack.jpeg" alt="Handcrafted Ostrich Leather Backpack" loading="lazy" />
         <span class="product-badge">Bestseller</span>
         <div class="product-actions">
-          <button onclick="event.stopPropagation();location.href='product.html?id=ostrich-backpack'">View Product</button>
+          <button onclick="event.stopPropagation();addToCartFromCard('ostrich-backpack',this)">Add to Cart</button>
           <button class="wishlist-btn" aria-label="Add to wishlist" onclick="event.stopPropagation()">♡</button>
         </div>
       </div>
@@ -1400,7 +1400,7 @@
       <div class="product-img-wrap">
         <img src="images/Ostrich%20Bag.jpeg" alt="Ostrich Leather Laptop Bag in Tan" loading="lazy" />
         <div class="product-actions">
-          <button onclick="event.stopPropagation();location.href='product.html?id=ostrich-tan'">View Product</button>
+          <button onclick="event.stopPropagation();addToCartFromCard('ostrich-tan',this)">Add to Cart</button>
           <button class="wishlist-btn" aria-label="Add to wishlist" onclick="event.stopPropagation()">♡</button>
         </div>
       </div>
@@ -1421,7 +1421,7 @@
         <img src="images/Ladies%20Ostrich%20Bag.jpeg" alt="Eva Ladies Ostrich Leather Clutch" loading="lazy" />
         <span class="product-badge new" style="background:#fff;color:#111;">New</span>
         <div class="product-actions">
-          <button onclick="event.stopPropagation();location.href='product.html?id=eva-clutch'">View Product</button>
+          <button onclick="event.stopPropagation();addToCartFromCard('eva-clutch',this)">Add to Cart</button>
           <button class="wishlist-btn" aria-label="Add to wishlist" onclick="event.stopPropagation()">♡</button>
         </div>
       </div>
@@ -1441,7 +1441,7 @@
       <div class="product-img-wrap">
         <img src="images/Ostrich%20Leather%20Bag.jpeg" alt="Ostrich Leather Laptop Bag in Navy" loading="lazy" />
         <div class="product-actions">
-          <button onclick="event.stopPropagation();location.href='product.html?id=ostrich-navy'">View Product</button>
+          <button onclick="event.stopPropagation();addToCartFromCard('ostrich-navy',this)">Add to Cart</button>
           <button class="wishlist-btn" aria-label="Add to wishlist" onclick="event.stopPropagation()">♡</button>
         </div>
       </div>
@@ -1728,10 +1728,40 @@
   });
 </script>
 
+<!-- ── CART ──────────────────────────────────────────────────────────────-->
+<script src="cart.js"></script>
+<script>
+// Static product data for the Add-to-Cart helper on this page.
+// The Supabase loader below overwrites these with live DB values.
+const INDEX_PRODUCTS = {
+  'ostrich-backpack': { name:'Ostrich Leather Backpack', price:4850, image:'images/Ostrich Leather Backpack.jpeg' },
+  'ostrich-tan':      { name:'Classic Tan Ostrich Bag',  price:3200, image:'images/Ostrich Bag.jpeg' },
+  'eva-clutch':       { name:'Eva Ladies Clutch',        price:1950, image:'images/Ladies Ostrich Bag.jpeg' },
+  'ostrich-navy':     { name:'Navy Structured Tote',     price:2750, image:'images/Ostrich Leather Bag.jpeg' },
+};
+
+function addToCartFromCard(id, btn) {
+  const p = (window.LIVE_PRODUCTS && window.LIVE_PRODUCTS[id]) || INDEX_PRODUCTS[id];
+  if (!p || p.price == null) return;
+  Cart.add({ id, name: p.name, price: p.price, image: p.image || p.images?.[0] || '' });
+  // Update the header count text
+  document.querySelectorAll('.cart-count-text').forEach(el => el.textContent = Cart.count());
+  // Button feedback
+  const orig = btn.textContent;
+  btn.textContent = '✓ Added';
+  btn.style.background = '#3a7d44';
+  setTimeout(() => { btn.textContent = orig; btn.style.background = ''; }, 2000);
+}
+
+// Keep cart-count-text in sync on load
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.cart-count-text').forEach(el => el.textContent = Cart.count());
+});
+</script>
+
 <!-- ── SUPABASE LIVE PRODUCT LOADER ────────────────────────────────────────
-     When supabase-config.js is filled in, this script fetches live product
-     data (prices, names, images, active status) from the database and patches
-     each card on the page without touching the static HTML layout.
+     Fetches live product data from the database and patches each card.
+     Also stores live prices/images into window.LIVE_PRODUCTS for cart use.
 ───────────────────────────────────────────────────────────────────────────-->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="supabase-config.js"></script>
@@ -1747,35 +1777,27 @@
 
   if (error || !products) return;
 
+  window.LIVE_PRODUCTS = {};
+
   products.forEach(p => {
-    // Find the card by its onclick attribute (e.g. onclick="location.href='product.html?id=ostrich-backpack'")
+    const imgs = Array.isArray(p.images) ? p.images : (p.images ? JSON.parse(p.images) : []);
+    // Cache for the cart helper
+    window.LIVE_PRODUCTS[p.id] = { name: p.name, price: p.price, image: imgs[0] || '' };
+
     const card = document.querySelector(`article[onclick*="${p.id}"]`);
     if (!card) return;
 
-    // Hide the whole card if marked inactive in the database
-    if (!p.active) {
-      card.style.display = 'none';
-      return;
-    }
+    if (!p.active) { card.style.display = 'none'; return; }
 
-    // Update product name
-    const nameEl = card.querySelector('.product-name');
-    if (nameEl) nameEl.textContent = p.name;
-
-    // Update price
+    const nameEl  = card.querySelector('.product-name');
     const priceEl = card.querySelector('.product-price');
-    if (priceEl) {
-      priceEl.textContent = p.price != null
-        ? 'R ' + Number(p.price).toLocaleString('en-ZA')
-        : 'Contact for price';
-    }
+    const imgEl   = card.querySelector('.product-img-wrap img');
 
-    // Update hero image if the first image in the DB differs from the static src
-    const imgs = Array.isArray(p.images) ? p.images : (p.images ? JSON.parse(p.images) : []);
-    if (imgs[0]) {
-      const imgEl = card.querySelector('.product-img-wrap img');
-      if (imgEl && imgEl.src !== imgs[0]) imgEl.src = imgs[0];
-    }
+    if (nameEl)  nameEl.textContent  = p.name;
+    if (priceEl) priceEl.textContent = p.price != null
+      ? 'R ' + Number(p.price).toLocaleString('en-ZA')
+      : 'Contact for price';
+    if (imgEl && imgs[0]) imgEl.src  = imgs[0];
   });
 })();
 </script>

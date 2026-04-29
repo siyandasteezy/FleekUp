@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script src="supabase-config.js"></script>
+  <script src="cart.js"></script>
   <style>
     :root {
       --gold: #B85C38;
@@ -621,9 +622,10 @@
       <button class="icon-btn" title="Search">
         <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       </button>
-      <button class="icon-btn" title="Cart">
+      <a href="cart.html" class="icon-btn" title="Cart" style="position:relative">
         <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-      </button>
+        <span class="cart-count" style="position:absolute;top:-5px;right:-5px;background:var(--gold);color:#fff;border-radius:50%;min-width:18px;height:18px;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center">0</span>
+      </a>
     </div>
   </div>
 </header>
@@ -1235,7 +1237,14 @@ function changeQty(delta) {
 
 function addToCart() {
   const qty = parseInt(document.getElementById('qty')?.value || 1);
+  if (!p) return;
+  Cart.add({ id: productId, name: p.name, price: p.price, image: p.images?.[0] || '', quantity: qty });
   showToast(`${qty}× ${p.name} added to cart`);
+  // Update badge
+  document.querySelectorAll('.cart-count').forEach(el => {
+    el.textContent = Cart.count();
+    el.style.display = 'flex';
+  });
 }
 
 // ── BOOT ──────────────────────────────────────────────────────────────────────
