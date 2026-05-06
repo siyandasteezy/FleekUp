@@ -8,6 +8,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
   <style>
+    @font-face {
+      font-family: 'AmsterdamOne';
+      src: url('AmsterdamOne-eZ12l.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
@@ -231,7 +239,8 @@
     }
 
     .hero h1 em {
-      font-style: italic;
+      font-family: 'AmsterdamOne', serif;
+      font-style: normal;
       color: var(--gold);
     }
 
@@ -670,7 +679,8 @@
     }
 
     .feature-banner-content h2 em {
-      font-style: italic;
+      font-family: 'AmsterdamOne', serif;
+      font-style: normal;
       color: var(--gold);
     }
 
@@ -823,6 +833,13 @@
       line-height: 1.15;
       color: var(--dark);
       margin-bottom: 22px;
+    }
+
+    .brand-story-content h2 .amsterdam {
+      font-family: 'AmsterdamOne', serif;
+      font-style: normal;
+      font-weight: normal;
+      color: var(--gold);
     }
 
     .brand-story-content p {
@@ -1564,7 +1581,7 @@
   </div>
   <div class="brand-story-content">
     <p class="section-eyebrow">Our Story</p>
-    <h2>On FLEEK means<br />absolutely perfect</h2>
+    <h2><span class="amsterdam">On FLEEK</span> means<br />absolutely perfect</h2>
     <p>The Urban Dictionary defines "On FLEEK" as extremely good, attractive, or stylish — and that's exactly the standard we hold ourselves to with every single piece we create.</p>
     <blockquote>"We believe luxury shouldn't be imported. South Africa's finest materials, crafted by South African hands."</blockquote>
     <p>From our workshop, each ostrich leather bag and animal hide rug is individually made, inspected, and sent out to homes across South Africa and beyond. No shortcuts. No compromises.</p>
