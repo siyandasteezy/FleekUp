@@ -419,6 +419,14 @@
               <option value="rug">Rug</option>
             </select>
           </div>
+          <div class="form-group">
+            <label>Audience / Segment</label>
+            <select id="edit-audience">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="home-decor">Home Decor</option>
+            </select>
+          </div>
           <div class="form-group" style="justify-content:flex-end">
             <label>Active on store</label>
             <div class="toggle-row" style="margin:0">
@@ -759,6 +767,7 @@ async function openEditProduct(id) {
   document.getElementById('edit-price').value     = p.price != null ? p.price : '';
   document.getElementById('edit-badge').value     = p.badge || '';
   document.getElementById('edit-type').value      = p.type || 'bag';
+  document.getElementById('edit-audience').value  = p.audience || (p.type === 'rug' ? 'home-decor' : 'male');
   document.getElementById('edit-active').checked  = p.active !== false;
   document.getElementById('edit-desc').value      = p.description || '';
   document.getElementById('edit-long-desc').value = p.long_desc || '';
@@ -784,7 +793,8 @@ function openAddProduct() {
     const el = document.getElementById(id);
     if (el) el.value = '';
   });
-  document.getElementById('edit-type').value = 'bag';
+  document.getElementById('edit-type').value     = 'bag';
+  document.getElementById('edit-audience').value = 'male';
   document.getElementById('edit-active').checked = true;
   editImages = [];
   renderImageGrid();
@@ -855,6 +865,7 @@ async function saveProduct() {
   const priceRaw = document.getElementById('edit-price').value.trim();
   const badge    = document.getElementById('edit-badge').value.trim();
   const type     = document.getElementById('edit-type').value;
+  const audience = document.getElementById('edit-audience').value;
   const active   = document.getElementById('edit-active').checked;
   const desc     = document.getElementById('edit-desc').value.trim();
   const longDesc = document.getElementById('edit-long-desc').value.trim();
@@ -877,7 +888,7 @@ async function saveProduct() {
   const finalId = id || name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
   const payload = {
-    id: finalId, name, category, badge, price, type, active,
+    id: finalId, name, category, badge, price, type, audience, active,
     description: desc, long_desc: longDesc,
     features: featuresArr, details: detailsObj,
     images: editImages,

@@ -13,6 +13,7 @@ create table if not exists public.products (
   badge       text default 'Handcrafted',
   price       numeric,                          -- null = "Contact for price"
   type        text not null default 'bag' check (type in ('bag','rug')),
+  audience    text not null default 'male' check (audience in ('male','female','home-decor')),
   description text,
   long_desc   text,
   features    jsonb default '[]'::jsonb,

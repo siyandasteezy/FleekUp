@@ -469,6 +469,58 @@
       margin: 0 auto;
     }
 
+    /* ── Audience (segment) filter ─────────────────────── */
+    .audience-section {
+      background: var(--dark-2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 0;
+    }
+    .audience-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+    .audience-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      white-space: nowrap;
+      padding-right: 24px;
+      border-right: 1px solid var(--border);
+      margin-right: 8px;
+    }
+    .audience-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      padding: 18px 26px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: color .2s, box-shadow .2s;
+      position: relative;
+    }
+    .audience-btn::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 50%; right: 50%;
+      height: 2px;
+      background: var(--gold);
+      transition: left .25s, right .25s;
+    }
+    .audience-btn:hover { color: var(--dark); }
+    .audience-btn.active { color: var(--gold); }
+    .audience-btn.active::after { left: 16px; right: 16px; }
+
+    /* ── Product-type filter ────────────────────────────── */
     .products-filter {
       display: flex;
       justify-content: center;
@@ -1227,6 +1279,9 @@
     }
 
     @media (max-width: 768px) {
+      .audience-inner { padding: 0 12px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .audience-label { display: none; }
+      .audience-btn { padding: 16px 18px; font-size: 12px; white-space: nowrap; }
       .header-inner { padding: 0 20px; }
       nav.main-nav { display: none; }
       .mobile-menu-toggle { display: flex; }
@@ -1375,8 +1430,19 @@
   </div>
 </section>
 
+<!-- AUDIENCE SEGMENT FILTER -->
+<div class="audience-section" id="shop-filter" aria-label="Shop by audience">
+  <div class="audience-inner">
+    <span class="audience-label">Shop For</span>
+    <button class="audience-btn active" data-audience="all"       onclick="setAudience(this)">All</button>
+    <button class="audience-btn"        data-audience="male"      onclick="setAudience(this)">Male</button>
+    <button class="audience-btn"        data-audience="female"    onclick="setAudience(this)">Female</button>
+    <button class="audience-btn"        data-audience="home-decor" onclick="setAudience(this)">Home Decor</button>
+  </div>
+</div>
+
 <!-- PRODUCTS: BAGS -->
-<section class="products-section" id="bags" aria-label="Bags products">
+<section class="products-section" id="bags" aria-label="Bags products" data-section="bags">
   <div class="section-header">
     <p class="section-eyebrow">Handcrafted Bags</p>
     <h2>Explore Our Bags</h2>
@@ -1392,7 +1458,7 @@
 
   <div class="products-grid">
     <!-- Product 1 -->
-    <article class="product-card" aria-label="Handcrafted Ostrich Leather Backpack" onclick="location.href='product.html?id=ostrich-backpack'" style="cursor:pointer">
+    <article class="product-card" aria-label="Handcrafted Ostrich Leather Backpack" data-audience="male" data-category="Backpacks" onclick="location.href='product.html?id=ostrich-backpack'" style="cursor:pointer">
       <div class="product-img-wrap">
         <img src="images/Ostrich%20Leather%20Backpack.jpeg" alt="Handcrafted Ostrich Leather Backpack" loading="lazy" />
         <span class="product-badge">Bestseller</span>
@@ -1413,7 +1479,7 @@
     </article>
 
     <!-- Product 2 -->
-    <article class="product-card" aria-label="Ostrich Leather Laptop Bag – Tan" onclick="location.href='product.html?id=ostrich-tan'" style="cursor:pointer">
+    <article class="product-card" aria-label="Ostrich Leather Laptop Bag – Tan" data-audience="male" data-category="Laptop Bags" onclick="location.href='product.html?id=ostrich-tan'" style="cursor:pointer">
       <div class="product-img-wrap">
         <img src="images/Ostrich%20Bag.jpeg" alt="Ostrich Leather Laptop Bag in Tan" loading="lazy" />
         <div class="product-actions">
@@ -1433,7 +1499,7 @@
     </article>
 
     <!-- Product 3 -->
-    <article class="product-card" aria-label="Eva – Ladies Handcrafted Ostrich Clutch" onclick="location.href='product.html?id=eva-clutch'" style="cursor:pointer">
+    <article class="product-card" aria-label="Eva – Ladies Handcrafted Ostrich Clutch" data-audience="female" data-category="Ladies" onclick="location.href='product.html?id=eva-clutch'" style="cursor:pointer">
       <div class="product-img-wrap">
         <img src="images/Ladies%20Ostrich%20Bag.jpeg" alt="Eva Ladies Ostrich Leather Clutch" loading="lazy" />
         <span class="product-badge new" style="background:#fff;color:#111;">New</span>
@@ -1454,7 +1520,7 @@
     </article>
 
     <!-- Product 4 -->
-    <article class="product-card" aria-label="Ostrich Leather Laptop Bag – Navy" onclick="location.href='product.html?id=ostrich-navy'" style="cursor:pointer">
+    <article class="product-card" aria-label="Ostrich Leather Laptop Bag – Navy" data-audience="male" data-category="Laptop Bags" onclick="location.href='product.html?id=ostrich-navy'" style="cursor:pointer">
       <div class="product-img-wrap">
         <img src="images/Ostrich%20Leather%20Bag.jpeg" alt="Ostrich Leather Laptop Bag in Navy" loading="lazy" />
         <div class="product-actions">
@@ -1502,7 +1568,7 @@
 </div>
 
 <!-- PRODUCTS: RUGS -->
-<section class="products-section" id="rugs" aria-label="Rugs products">
+<section class="products-section" id="rugs" aria-label="Rugs products" data-section="rugs">
   <div class="section-header">
     <p class="section-eyebrow">Exclusive Collection</p>
     <h2>Handcrafted Animal Hide Rugs</h2>
@@ -1510,7 +1576,7 @@
   </div>
 
   <div class="products-grid" style="grid-template-columns: repeat(2, 1fr); max-width: 860px; margin: 0 auto;">
-    <article class="product-card" aria-label="Black Wildebeest Rug" onclick="location.href='product.html?id=wildebeest-rug'" style="cursor:pointer">
+    <article class="product-card" aria-label="Black Wildebeest Rug" data-audience="home-decor" data-category="Animal Hide Rugs" onclick="location.href='product.html?id=wildebeest-rug'" style="cursor:pointer">
       <div class="product-img-wrap">
         <img src="images/black-wildebeest-rug.png" alt="Black Wildebeest Hide Rug" loading="lazy" />
         <span class="product-badge">Limited</span>
@@ -1530,7 +1596,7 @@
       </div>
     </article>
 
-    <article class="product-card" aria-label="Eland Hide Rug" onclick="location.href='product.html?id=eland-rug'" style="cursor:pointer">
+    <article class="product-card" aria-label="Eland Hide Rug" data-audience="home-decor" data-category="Animal Hide Rugs" onclick="location.href='product.html?id=eland-rug'" style="cursor:pointer">
       <div class="product-img-wrap">
         <img src="images/Eland-Rug.png" alt="Eland Hide Rug" loading="lazy" />
         <span class="product-badge new" style="background:#fff;color:#111;">New</span>
@@ -1720,9 +1786,50 @@
 </footer>
 
 <script>
+  // Active audience & type filters (shared state)
+  let _activeAudience = 'all';
+  let _activeType     = 'all';
+
+  function applyFilters() {
+    const bagSection = document.querySelector('[data-section="bags"]');
+    const rugSection = document.querySelector('[data-section="rugs"]');
+    const featureBanner = document.querySelector('.feature-banner');
+
+    // Show/hide entire sections based on audience
+    const showBags = (_activeAudience === 'all' || _activeAudience === 'male' || _activeAudience === 'female');
+    const showRugs = (_activeAudience === 'all' || _activeAudience === 'home-decor');
+
+    if (bagSection) bagSection.style.display = showBags ? '' : 'none';
+    if (rugSection) rugSection.style.display = showRugs ? '' : 'none';
+    if (featureBanner) featureBanner.style.display = (showBags || showRugs) ? '' : 'none';
+
+    // Filter individual cards
+    document.querySelectorAll('.product-card[data-audience]').forEach(card => {
+      const cardAudience = card.dataset.audience;
+      const cardCategory = (card.dataset.category || '').toLowerCase();
+      const typeMatch = (_activeType === 'all') || (cardCategory === _activeType.toLowerCase());
+      const audienceMatch = (_activeAudience === 'all') || (cardAudience === _activeAudience);
+      card.style.display = (audienceMatch && typeMatch) ? '' : 'none';
+    });
+  }
+
+  function setAudience(btn) {
+    document.querySelectorAll('.audience-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    _activeAudience = btn.dataset.audience;
+    // Reset type filter when switching audience
+    _activeType = 'all';
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    const allBtn = document.querySelector('.filter-btn');
+    if (allBtn) allBtn.classList.add('active');
+    applyFilters();
+  }
+
   function setFilter(btn) {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
+    _activeType = btn.textContent.trim();
+    applyFilters();
   }
 
   function handleNewsletter(e) {
