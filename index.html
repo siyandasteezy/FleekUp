@@ -469,85 +469,73 @@
       margin: 0 auto;
     }
 
-    /* ── Audience (segment) filter ─────────────────────── */
-    .audience-section {
-      background: var(--dark-2);
-      border-top: 1px solid var(--border);
+    /* ── Unified filter bar ─────────────────────────────── */
+    .filter-bar {
+      background: #fff;
       border-bottom: 1px solid var(--border);
-      padding: 0;
+      position: sticky;
+      top: 76px;
+      z-index: 50;
     }
-    .audience-inner {
+    .filter-bar-inner {
       max-width: 1280px;
       margin: 0 auto;
-      padding: 0 32px;
+      padding: 0 40px;
+      height: 54px;
       display: flex;
       align-items: center;
       gap: 0;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
-    .audience-label {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .12em;
+    .filter-bar-inner::-webkit-scrollbar { display: none; }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      flex-shrink: 0;
+    }
+    .filter-group-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .14em;
       text-transform: uppercase;
       color: var(--text-muted);
+      padding: 0 14px 0 4px;
       white-space: nowrap;
-      padding-right: 24px;
-      border-right: 1px solid var(--border);
-      margin-right: 8px;
+      flex-shrink: 0;
     }
-    .audience-btn {
+    .filter-divider {
+      width: 1px;
+      height: 18px;
+      background: var(--border);
+      margin: 0 16px;
+      flex-shrink: 0;
+    }
+    .chip {
       background: none;
       border: none;
       color: var(--text-muted);
-      padding: 18px 26px;
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: color .2s, box-shadow .2s;
-      position: relative;
-    }
-    .audience-btn::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 50%; right: 50%;
-      height: 2px;
-      background: var(--gold);
-      transition: left .25s, right .25s;
-    }
-    .audience-btn:hover { color: var(--dark); }
-    .audience-btn.active { color: var(--gold); }
-    .audience-btn.active::after { left: 16px; right: 16px; }
-
-    /* ── Product-type filter ────────────────────────────── */
-    .products-filter {
-      display: flex;
-      justify-content: center;
-      gap: 6px;
-      margin-bottom: 48px;
-      flex-wrap: wrap;
-    }
-
-    .filter-btn {
-      background: none;
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      padding: 8px 22px;
+      padding: 6px 16px;
       font-size: 11px;
       font-weight: 600;
-      letter-spacing: 0.12em;
+      letter-spacing: .1em;
       text-transform: uppercase;
-      border-radius: 2px;
       cursor: pointer;
-      transition: all 0.2s;
+      border-radius: 100px;
+      transition: background .18s, color .18s;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
-
-    .filter-btn:hover,
-    .filter-btn.active {
-      border-color: var(--gold);
-      color: var(--gold);
-      background: rgba(184,92,56,0.08);
+    .chip:hover {
+      color: var(--dark);
+      background: rgba(58,36,22,0.06);
+    }
+    .chip.active {
+      background: var(--black);
+      color: #ffffff;
     }
 
     .products-grid {
@@ -1378,9 +1366,9 @@
     }
 
     @media (max-width: 768px) {
-      .audience-inner { padding: 0 12px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-      .audience-label { display: none; }
-      .audience-btn { padding: 16px 18px; font-size: 12px; white-space: nowrap; }
+      .filter-bar-inner { padding: 0 16px; }
+      .filter-group-label { display: none; }
+      .filter-divider { margin: 0 10px; }
       .journey-section { padding: 70px 20px; }
       .journey-steps { grid-template-columns: 1fr; gap: 2px; }
       .journey-step-img { aspect-ratio: 16/9; }
@@ -1534,14 +1522,24 @@
   </div>
 </section>
 
-<!-- AUDIENCE SEGMENT FILTER -->
-<div class="audience-section" id="shop-filter" aria-label="Shop by audience">
-  <div class="audience-inner">
-    <span class="audience-label">Shop For</span>
-    <button class="audience-btn active" data-audience="all"       onclick="setAudience(this)">All</button>
-    <button class="audience-btn"        data-audience="male"      onclick="setAudience(this)">Male</button>
-    <button class="audience-btn"        data-audience="female"    onclick="setAudience(this)">Female</button>
-    <button class="audience-btn"        data-audience="home-decor" onclick="setAudience(this)">Home Decor</button>
+<!-- UNIFIED FILTER BAR -->
+<div class="filter-bar" id="shop-filter" aria-label="Filter products">
+  <div class="filter-bar-inner">
+    <div class="filter-group">
+      <span class="filter-group-label">For</span>
+      <button class="chip active" data-audience="all"        onclick="setAudience(this)">All</button>
+      <button class="chip"        data-audience="male"       onclick="setAudience(this)">Male</button>
+      <button class="chip"        data-audience="female"     onclick="setAudience(this)">Female</button>
+      <button class="chip"        data-audience="home-decor" onclick="setAudience(this)">Home Decor</button>
+    </div>
+    <div class="filter-divider"></div>
+    <div class="filter-group">
+      <span class="filter-group-label">Type</span>
+      <button class="chip active" onclick="setFilter(this)">All</button>
+      <button class="chip"        onclick="setFilter(this)">Backpacks</button>
+      <button class="chip"        onclick="setFilter(this)">Laptop Bags</button>
+      <button class="chip"        onclick="setFilter(this)">Ladies</button>
+    </div>
   </div>
 </div>
 
@@ -1551,13 +1549,6 @@
     <p class="section-eyebrow">Handcrafted Bags</p>
     <h2>Explore Our Bags</h2>
     <p>Each bag is individually crafted from premium South African ostrich leather — unique markings guaranteed.</p>
-  </div>
-
-  <div class="products-filter" role="group" aria-label="Filter products">
-    <button class="filter-btn active" onclick="setFilter(this)">All</button>
-    <button class="filter-btn" onclick="setFilter(this)">Backpacks</button>
-    <button class="filter-btn" onclick="setFilter(this)">Laptop Bags</button>
-    <button class="filter-btn" onclick="setFilter(this)">Ladies</button>
   </div>
 
   <div class="products-grid">
@@ -1981,19 +1972,21 @@
   }
 
   function setAudience(btn) {
-    document.querySelectorAll('.audience-btn').forEach(b => b.classList.remove('active'));
+    // Deactivate only audience chips (those with data-audience)
+    document.querySelectorAll('.chip[data-audience]').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     _activeAudience = btn.dataset.audience;
-    // Reset type filter when switching audience
+    // Reset type filter to All
     _activeType = 'all';
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    const allBtn = document.querySelector('.filter-btn');
-    if (allBtn) allBtn.classList.add('active');
+    const typeChips = document.querySelectorAll('#shop-filter .filter-group:last-child .chip');
+    typeChips.forEach(b => b.classList.remove('active'));
+    if (typeChips[0]) typeChips[0].classList.add('active');
     applyFilters();
   }
 
   function setFilter(btn) {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    // Deactivate only type chips (those without data-audience)
+    document.querySelectorAll('#shop-filter .filter-group:last-child .chip').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     _activeType = btn.textContent.trim();
     applyFilters();
