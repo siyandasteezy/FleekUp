@@ -306,6 +306,29 @@
       transform: translateY(-2px);
     }
 
+    .btn-outline-dark {
+      background: transparent;
+      color: var(--dark);
+      padding: 13px 32px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s, transform 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .btn-outline-dark:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-2px);
+    }
+
     .hero-scroll {
       position: absolute;
       bottom: 80px;
@@ -1592,7 +1615,7 @@
   </div>
 
   <div style="text-align:center;margin-top:52px;">
-    <a href="#" class="btn-outline">View All Bags</a>
+    <a href="#" class="btn-outline-dark">View All Bags</a>
   </div>
 </section>
 
