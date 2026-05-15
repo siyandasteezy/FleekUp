@@ -12,7 +12,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     :root {
-      --gold: #B85C38; --gold-light: #CE7A57; --gold-pale: #F0DDD5;
+      --gold: #c18d2d; --gold-light: #d4a84a; --gold-pale: #f5e8c5;
       --black: #2B1A12; --dark: #3A2416; --dark-2: #EDE3D4; --dark-3: #E5D8C5;
       --mid: #7A5A47; --text-muted: rgba(58,36,22,0.55); --text-light: rgba(58,36,22,0.82);
       --white: #ffffff; --border: rgba(92,61,46,0.15);
@@ -65,7 +65,7 @@
     .sidebar-nav { flex:1; padding:16px 0; overflow-y:auto; }
     .nav-item { display:flex; align-items:center; gap:12px; padding:12px 20px; font-size:14px; font-weight:500; color:rgba(240,221,213,.6); cursor:pointer; border-left:3px solid transparent; transition:background .15s,color .15s; user-select:none; }
     .nav-item:hover { background:rgba(255,255,255,.05); color:rgba(240,221,213,.9); }
-    .nav-item.active { background:rgba(184,92,56,.15); color:var(--gold-light); border-left-color:var(--gold); }
+    .nav-item.active { background:rgba(193,141,45,.15); color:var(--gold-light); border-left-color:var(--gold); }
     .nav-item svg { flex-shrink:0; }
     .sidebar-footer { padding:16px 20px; border-top:1px solid rgba(92,61,46,.3); }
     .sidebar-user { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
@@ -113,7 +113,7 @@
     .badge { display:inline-block; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; }
     .badge-active   { background:rgba(58,125,68,.12); color:var(--success); }
     .badge-inactive { background:rgba(192,57,43,.1);  color:var(--danger);  }
-    .badge-contact  { background:rgba(184,92,56,.12); color:var(--gold);    }
+    .badge-contact  { background:rgba(193,141,45,.12); color:var(--gold);    }
     .badge-pending  { background:rgba(122,90,71,.12); color:var(--mid);     }
 
     /* PRODUCT THUMB CELL */
@@ -691,13 +691,13 @@ async function loadDashboard() {
 
   dashboardCharts.revenue = new Chart(document.getElementById('revenue-chart'), {
     type: 'line',
-    data: { labels: months, datasets: [{ label:'Revenue', data: revByMonth, borderColor:'#B85C38', backgroundColor:'rgba(184,92,56,.08)', pointBackgroundColor:'#B85C38', tension:.4, fill:true }] },
+    data: { labels: months, datasets: [{ label:'Revenue', data: revByMonth, borderColor:'#c18d2d', backgroundColor:'rgba(193,141,45,.08)', pointBackgroundColor:'#c18d2d', tension:.4, fill:true }] },
     options: { responsive:true, plugins:{legend:{display:false}}, scales:{ y:{ticks:{callback:v=>'R'+(v/1000).toFixed(0)+'k',font:{size:11}},grid:{color:'rgba(58,36,22,.08)'}}, x:{ticks:{font:{size:11}},grid:{display:false}} } }
   });
 
   dashboardCharts.product = new Chart(document.getElementById('product-chart'), {
     type: 'doughnut',
-    data: { labels: topProducts.map(p=>p[0].split(' ').slice(0,2).join(' ')), datasets: [{ data: topProducts.map(p=>p[1]), backgroundColor:['#B85C38','#CE7A57','#E5D8C5','#7A5A47','#2B1A12','#F0DDD5'], borderWidth:0 }] },
+    data: { labels: topProducts.map(p=>p[0].split(' ').slice(0,2).join(' ')), datasets: [{ data: topProducts.map(p=>p[1]), backgroundColor:['#c18d2d','#d4a84a','#E5D8C5','#7A5A47','#2B1A12','#F0DDD5'], borderWidth:0 }] },
     options: { responsive:true, cutout:'65%', plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:12}}} }
   });
 }
@@ -1061,12 +1061,12 @@ async function loadReports() {
 
   reportCharts.ytd = new Chart(document.getElementById('ytd-chart'), {
     type:'bar',
-    data:{ labels:months, datasets:[{ label:'Revenue', data:revByMonth, backgroundColor:'#B85C38', borderRadius:3 }] },
+    data:{ labels:months, datasets:[{ label:'Revenue', data:revByMonth, backgroundColor:'#c18d2d', borderRadius:3 }] },
     options:{ responsive:true, plugins:{legend:{display:false}}, scales:{ y:{ticks:{callback:v=>'R'+(v/1000).toFixed(0)+'k',font:{size:11}},grid:{color:'rgba(58,36,22,.08)'}}, x:{ticks:{font:{size:11}},grid:{display:false}} } }
   });
   reportCharts.cat = new Chart(document.getElementById('cat-chart'), {
     type:'pie',
-    data:{ labels:Object.keys(catRevMap), datasets:[{ data:Object.values(catRevMap), backgroundColor:['#B85C38','#2B1A12'], borderWidth:0 }] },
+    data:{ labels:Object.keys(catRevMap), datasets:[{ data:Object.values(catRevMap), backgroundColor:['#c18d2d','#2B1A12'], borderWidth:0 }] },
     options:{ responsive:true, plugins:{legend:{position:'bottom',labels:{font:{size:12},padding:16}}} }
   });
 }
