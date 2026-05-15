@@ -1988,7 +1988,7 @@
     // Deactivate only type chips (those without data-audience)
     document.querySelectorAll('#shop-filter .filter-group:last-child .chip').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    _activeType = btn.textContent.trim();
+    _activeType = btn.textContent.trim().toLowerCase();
     applyFilters();
   }
 
